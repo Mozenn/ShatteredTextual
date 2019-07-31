@@ -75,6 +75,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\Users\gauth\OneDrive\Documents\Dev\Programmation\C++\Games\SLTextual\Source\nlohmann;C:\Users\gauth\OneDrive\Documents\Dev\Programmation\C++\Games\SLTextual\Source;$(IncludePath)</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -110,6 +112,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -151,7 +154,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ShatteredTextual.cpp" />
+    <ClInclude Include="Source\GameInstance.h" />
+    <ClInclude Include="Source\GameState.h" />
+    <ClInclude Include="Source\GameStateManager.h" />
+    <ClInclude Include="Source\HelperFunctionLibrary.h" />
+    <ClInclude Include="Source\Inventory.h" />
+    <ClInclude Include="Source\InventoryMenu.h" />
+    <ClInclude Include="Source\Level.h" />
+    <ClInclude Include="Source\nlohmann\json.hpp" />
+    <ClInclude Include="Source\SLTypes.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\GameInstance.cpp" />
+    <ClCompile Include="Source\GameState.cpp" />
+    <ClCompile Include="Source\GameStateManager.cpp" />
+    <ClCompile Include="Source\HelperFunctionLibrary.cpp" />
+    <ClCompile Include="Source\Inventory.cpp" />
+    <ClCompile Include="Source\InventoryMenu.cpp" />
+    <ClCompile Include="Source\Level.cpp" />
+    <ClCompile Include="Source\ShatteredTextual.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
