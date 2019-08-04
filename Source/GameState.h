@@ -1,16 +1,26 @@
 #pragma once
-class GameState
+#include <string>
+
+namespace SL
 {
-public:
+	class GameState
+	{
+	public:
+		GameState();
 
-	GameState();
+		GameState(std::string p_name);
 
-	virtual ~GameState();
+		virtual void Display() = 0;
 
-	virtual void OnEntered() = 0;
+		virtual void HandleInput() = 0;
 
-	virtual void OnExit() = 0;
+		std::string GetName() const; 
 
-	virtual void HandleInput() = 0;
-};
+	protected :
+
+		std::string name; 
+
+	};
+
+}
 

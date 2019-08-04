@@ -154,6 +154,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Save.h" />
     <ClInclude Include="Source\GameInstance.h" />
     <ClInclude Include="Source\GameState.h" />
     <ClInclude Include="Source\GameStateManager.h" />
@@ -165,6 +166,7 @@
     <ClInclude Include="Source\SLTypes.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Save.cpp" />
     <ClCompile Include="Source\GameInstance.cpp" />
     <ClCompile Include="Source\GameState.cpp" />
     <ClCompile Include="Source\GameStateManager.cpp" />

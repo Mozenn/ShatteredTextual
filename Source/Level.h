@@ -1,22 +1,37 @@
 #pragma once
 
 #include <string>
+#include <vector>
 #include "GameState.h"
 
-class Level : public GameState
+namespace SL
 {
-public:
+	class Level : public GameState
+	{
+	public:
 
-	Level();
+		Level();
 
-	Level(std::string levelName);
+		Level(std::string levelName);
 
-	~Level();
+		virtual void Display() override;
 
-	virtual void OnEntered() override ;
+		virtual void HandleInput() override;
 
-	virtual void OnExit() override;
+		// event OnNewItem
+		//event OnNewProgression 
 
-	virtual void HandleInput()override;
-};
+	private :
+
+		std::string description; 
+
+		std::vector<std::string> choices;
+
+		// Link levels to choices 
+		std::vector<std::string> links;
+
+	};
+
+}
+
 

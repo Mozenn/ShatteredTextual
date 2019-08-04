@@ -3,45 +3,48 @@
 #include <string> 
 #include <memory>
 #include "Inventory.h"
+#include <map>
+#include "GameStateManager.h"
 
-struct Progression
+
+namespace SL
 {
-	bool bFLCompleted = false; 
+	class Save;
 
-	bool bFoCompleted = false; 
+	class GameInstance
+	{
 
-	bool bAbyssCompleted = false; 
+	public:
 
-	bool bVillageCompleted = false; 
+		GameInstance(std::string name);
 
-	bool bCLCompleted = false; 
-};
+		void GameLoop();
 
-class GameInstance
-{
+		bool LoadGame(bool bNewGame);
 
-public :
+		void SaveGame();
 
-	GameInstance(std::string name, bool bNewGame); 
+		void QuitGame();
 
-	~GameInstance();
+		void DisplayHUD();
 
-	void GameLoop(); 
+	private:
 
-	bool LoadData(); 
+		std::map<std::string,int> progression;
 
-	void Save();
+		std::unique_ptr<Inventory> inventory;
 
-	void QuitGame();
+		std::string m_name;
 
-private : 
+		bool bExitGame;
 
-	Progression progression; 
+		std::unique_ptr<GameStateManager> levelManager;
 
-	std::unique_ptr<Inventory> inventory;
+		//Save save;
 
-	std::string m_name; 
+		void InitializeProgression();
+	};
+}
 
-	bool bExitGame; 
-};
+
 

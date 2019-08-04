@@ -2,18 +2,21 @@
 #include "GameState.h"
 #include <string>
 
-class InventoryMenu :public GameState
+namespace SL
 {
-public:
+	class InventoryMenu :public GameState
+	{
+	public:
 
-	InventoryMenu();
+		InventoryMenu();
 
-	~InventoryMenu();
+		~InventoryMenu();
 
-	virtual void OnEntered() override;
+		virtual void Display() override;
 
-	virtual void OnExit() override;
+		virtual void HandleInput() override;
+	};
+}
 
-	virtual void HandleInput()override;
-};
+
 

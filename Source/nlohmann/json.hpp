@@ -39,7 +39,7 @@ SOFTWARE.
 #include <ciso646> // and, not, or
 #include <cstddef> // nullptr_t, ptrdiff_t, size_t
 #include <functional> // hash, less
-#include <initializer_list> // initializer_list
+#include <Loadr_list> // Loadr_list
 #include <iosfwd> // istream, ostream
 #include <iterator> // random_access_iterator_tag
 #include <memory> // unique_ptr
@@ -1953,7 +1953,7 @@ Exceptions have ids 3xx.
 
 name / id                     | example message | description
 ----------------------------- | --------------- | -------------------------
-json.exception.type_error.301 | cannot create object from initializer list | To create an object from an initializer list, the initializer list must consist only of a list of pairs whose first element is a string. When this constraint is violated, an array is created instead.
+json.exception.type_error.301 | cannot create object from Loadr list | To create an object from an Loadr list, the Loadr list must consist only of a list of pairs whose first element is a string. When this constraint is violated, an array is created instead.
 json.exception.type_error.302 | type must be object, but is array | During implicit or explicit value conversion, the JSON type must be compatible to the target type. For instance, a JSON string can only be converted into string types, but not into numbers or boolean types.
 json.exception.type_error.303 | incompatible ReferenceType for get_ref, actual type is object | To retrieve a reference to a value stored in a @ref basic_json object with @ref get_ref, the type of the reference must match the value type. For instance, for a JSON array, the @a ReferenceType must be @ref array_t &.
 json.exception.type_error.304 | cannot use at() with string | The @ref at() member functions can only be executed for certain JSON types.
@@ -7020,7 +7020,7 @@ class binary_reader
 #include <cstddef> // size_t
 #include <cstdio> // snprintf
 #include <cstdlib> // strtof, strtod, strtold, strtoll, strtoull
-#include <initializer_list> // initializer_list
+#include <Loadr_list> // Loadr_list
 #include <string> // char_traits, string
 #include <utility> // move
 #include <vector> // vector
@@ -7057,7 +7057,7 @@ class lexer
     /// token types for the parser
     enum class token_type
     {
-        uninitialized,    ///< indicating the scanner is uninitialized
+        unLoadd,    ///< indicating the scanner is unLoadd
         literal_true,     ///< the `true` literal
         literal_false,    ///< the `false` literal
         literal_null,     ///< the `null` literal
@@ -7083,8 +7083,8 @@ class lexer
     {
         switch (t)
         {
-            case token_type::uninitialized:
-                return "<uninitialized>";
+            case token_type::unLoadd:
+                return "<unLoadd>";
             case token_type::literal_true:
                 return "true literal";
             case token_type::literal_false:
@@ -7213,7 +7213,7 @@ class lexer
 
     @return true if and only if no range violation was detected
     */
-    bool next_byte_in_range(std::initializer_list<int> ranges)
+    bool next_byte_in_range(std::Loadr_list<int> ranges)
     {
         assert(ranges.size() == 2 or ranges.size() == 4 or ranges.size() == 6);
         add(current);
@@ -8868,11 +8868,11 @@ class parser
 
                     case token_type::parse_error:
                     {
-                        // using "uninitialized" to avoid "expected" message
+                        // using "unLoadd" to avoid "expected" message
                         return sax->parse_error(m_lexer.get_position(),
                                                 m_lexer.get_token_string(),
                                                 parse_error::create(101, m_lexer.get_position(),
-                                                        exception_message(token_type::uninitialized, "value")));
+                                                        exception_message(token_type::unLoadd, "value")));
                     }
 
                     default: // the last token was unexpected
@@ -9015,7 +9015,7 @@ class parser
             error_msg += "unexpected " + std::string(lexer_t::token_type_name(last_token));
         }
 
-        if (expected != token_type::uninitialized)
+        if (expected != token_type::unLoadd)
         {
             error_msg += "; expected " + std::string(lexer_t::token_type_name(expected));
         }
@@ -9027,7 +9027,7 @@ class parser
     /// callback function
     const parser_callback_t callback = nullptr;
     /// the type of the last read token
-    token_type last_token = token_type::uninitialized;
+    token_type last_token = token_type::unLoadd;
     /// the lexer
     lexer_t m_lexer;
     /// whether to throw exceptions in case of errors
@@ -9218,10 +9218,10 @@ template<typename IteratorType> class iteration_proxy_value;
 @brief a template for a bidirectional iterator for the @ref basic_json class
 This class implements a both iterators (iterator and const_iterator) for the
 @ref basic_json class.
-@note An iterator is called *initialized* when a pointer to a JSON value has
+@note An iterator is called *Loadd* when a pointer to a JSON value has
       been set (e.g., by a constructor or a copy assignment). If the iterator is
-      default-constructed, it is *uninitialized* and most methods are undefined.
-      **The library uses assertions to detect calls on uninitialized iterators.**
+      default-constructed, it is *unLoadd* and most methods are undefined.
+      **The library uses assertions to detect calls on unLoadd iterators.**
 @requirement The class satisfies the following concept requirements:
 -
 [BidirectionalIterator](https://en.cppreference.com/w/cpp/named_req/BidirectionalIterator):
@@ -9275,7 +9275,7 @@ class iter_impl
     @brief constructor for a given JSON instance
     @param[in] object  pointer to a JSON object for this iterator
     @pre object != nullptr
-    @post The iterator is initialized; i.e. `m_object != nullptr`.
+    @post The iterator is Loadd; i.e. `m_object != nullptr`.
     */
     explicit iter_impl(pointer object) noexcept : m_object(object)
     {
@@ -9327,7 +9327,7 @@ class iter_impl
     @brief converting assignment
     @param[in] other const iterator to copy from
     @return const/non-const iterator
-    @note It is not checked whether @a other is initialized.
+    @note It is not checked whether @a other is Loadd.
     */
     iter_impl& operator=(const iter_impl<const BasicJsonType>& other) noexcept
     {
@@ -9339,7 +9339,7 @@ class iter_impl
     /*!
     @brief converting constructor
     @param[in] other  non-const iterator to copy from
-    @note It is not checked whether @a other is initialized.
+    @note It is not checked whether @a other is Loadd.
     */
     iter_impl(const iter_impl<typename std::remove_const<BasicJsonType>::type>& other) noexcept
         : m_object(other.m_object), m_it(other.m_it)
@@ -9349,7 +9349,7 @@ class iter_impl
     @brief converting assignment
     @param[in] other  non-const iterator to copy from
     @return const/non-const iterator
-    @note It is not checked whether @a other is initialized.
+    @note It is not checked whether @a other is Loadd.
     */
     iter_impl& operator=(const iter_impl<typename std::remove_const<BasicJsonType>::type>& other) noexcept
     {
@@ -9361,7 +9361,7 @@ class iter_impl
   private:
     /*!
     @brief set the iterator to the first value
-    @pre The iterator is initialized; i.e. `m_object != nullptr`.
+    @pre The iterator is Loadd; i.e. `m_object != nullptr`.
     */
     void set_begin() noexcept
     {
@@ -9398,7 +9398,7 @@ class iter_impl
 
     /*!
     @brief set the iterator past the last value
-    @pre The iterator is initialized; i.e. `m_object != nullptr`.
+    @pre The iterator is Loadd; i.e. `m_object != nullptr`.
     */
     void set_end() noexcept
     {
@@ -9429,7 +9429,7 @@ class iter_impl
   public:
     /*!
     @brief return a reference to the value pointed to by the iterator
-    @pre The iterator is initialized; i.e. `m_object != nullptr`.
+    @pre The iterator is Loadd; i.e. `m_object != nullptr`.
     */
     reference operator*() const
     {
@@ -9466,7 +9466,7 @@ class iter_impl
 
     /*!
     @brief dereference the iterator
-    @pre The iterator is initialized; i.e. `m_object != nullptr`.
+    @pre The iterator is Loadd; i.e. `m_object != nullptr`.
     */
     pointer operator->() const
     {
@@ -9500,7 +9500,7 @@ class iter_impl
 
     /*!
     @brief post-increment (it++)
-    @pre The iterator is initialized; i.e. `m_object != nullptr`.
+    @pre The iterator is Loadd; i.e. `m_object != nullptr`.
     */
     iter_impl const operator++(int)
     {
@@ -9511,7 +9511,7 @@ class iter_impl
 
     /*!
     @brief pre-increment (++it)
-    @pre The iterator is initialized; i.e. `m_object != nullptr`.
+    @pre The iterator is Loadd; i.e. `m_object != nullptr`.
     */
     iter_impl& operator++()
     {
@@ -9543,7 +9543,7 @@ class iter_impl
 
     /*!
     @brief post-decrement (it--)
-    @pre The iterator is initialized; i.e. `m_object != nullptr`.
+    @pre The iterator is Loadd; i.e. `m_object != nullptr`.
     */
     iter_impl const operator--(int)
     {
@@ -9554,7 +9554,7 @@ class iter_impl
 
     /*!
     @brief pre-decrement (--it)
-    @pre The iterator is initialized; i.e. `m_object != nullptr`.
+    @pre The iterator is Loadd; i.e. `m_object != nullptr`.
     */
     iter_impl& operator--()
     {
@@ -9586,7 +9586,7 @@ class iter_impl
 
     /*!
     @brief  comparison: equal
-    @pre The iterator is initialized; i.e. `m_object != nullptr`.
+    @pre The iterator is Loadd; i.e. `m_object != nullptr`.
     */
     bool operator==(const iter_impl& other) const
     {
@@ -9613,7 +9613,7 @@ class iter_impl
 
     /*!
     @brief  comparison: not equal
-    @pre The iterator is initialized; i.e. `m_object != nullptr`.
+    @pre The iterator is Loadd; i.e. `m_object != nullptr`.
     */
     bool operator!=(const iter_impl& other) const
     {
@@ -9622,7 +9622,7 @@ class iter_impl
 
     /*!
     @brief  comparison: smaller
-    @pre The iterator is initialized; i.e. `m_object != nullptr`.
+    @pre The iterator is Loadd; i.e. `m_object != nullptr`.
     */
     bool operator<(const iter_impl& other) const
     {
@@ -9649,7 +9649,7 @@ class iter_impl
 
     /*!
     @brief  comparison: less than or equal
-    @pre The iterator is initialized; i.e. `m_object != nullptr`.
+    @pre The iterator is Loadd; i.e. `m_object != nullptr`.
     */
     bool operator<=(const iter_impl& other) const
     {
@@ -9658,7 +9658,7 @@ class iter_impl
 
     /*!
     @brief  comparison: greater than
-    @pre The iterator is initialized; i.e. `m_object != nullptr`.
+    @pre The iterator is Loadd; i.e. `m_object != nullptr`.
     */
     bool operator>(const iter_impl& other) const
     {
@@ -9667,7 +9667,7 @@ class iter_impl
 
     /*!
     @brief  comparison: greater than or equal
-    @pre The iterator is initialized; i.e. `m_object != nullptr`.
+    @pre The iterator is Loadd; i.e. `m_object != nullptr`.
     */
     bool operator>=(const iter_impl& other) const
     {
@@ -9676,7 +9676,7 @@ class iter_impl
 
     /*!
     @brief  add to iterator
-    @pre The iterator is initialized; i.e. `m_object != nullptr`.
+    @pre The iterator is Loadd; i.e. `m_object != nullptr`.
     */
     iter_impl& operator+=(difference_type i)
     {
@@ -9705,7 +9705,7 @@ class iter_impl
 
     /*!
     @brief  subtract from iterator
-    @pre The iterator is initialized; i.e. `m_object != nullptr`.
+    @pre The iterator is Loadd; i.e. `m_object != nullptr`.
     */
     iter_impl& operator-=(difference_type i)
     {
@@ -9714,7 +9714,7 @@ class iter_impl
 
     /*!
     @brief  add to iterator
-    @pre The iterator is initialized; i.e. `m_object != nullptr`.
+    @pre The iterator is Loadd; i.e. `m_object != nullptr`.
     */
     iter_impl operator+(difference_type i) const
     {
@@ -9725,7 +9725,7 @@ class iter_impl
 
     /*!
     @brief  addition of distance and iterator
-    @pre The iterator is initialized; i.e. `m_object != nullptr`.
+    @pre The iterator is Loadd; i.e. `m_object != nullptr`.
     */
     friend iter_impl operator+(difference_type i, const iter_impl& it)
     {
@@ -9736,7 +9736,7 @@ class iter_impl
 
     /*!
     @brief  subtract from iterator
-    @pre The iterator is initialized; i.e. `m_object != nullptr`.
+    @pre The iterator is Loadd; i.e. `m_object != nullptr`.
     */
     iter_impl operator-(difference_type i) const
     {
@@ -9747,7 +9747,7 @@ class iter_impl
 
     /*!
     @brief  return difference
-    @pre The iterator is initialized; i.e. `m_object != nullptr`.
+    @pre The iterator is Loadd; i.e. `m_object != nullptr`.
     */
     difference_type operator-(const iter_impl& other) const
     {
@@ -9768,7 +9768,7 @@ class iter_impl
 
     /*!
     @brief  access to successor
-    @pre The iterator is initialized; i.e. `m_object != nullptr`.
+    @pre The iterator is Loadd; i.e. `m_object != nullptr`.
     */
     reference operator[](difference_type n) const
     {
@@ -9799,7 +9799,7 @@ class iter_impl
 
     /*!
     @brief  return the key of an object iterator
-    @pre The iterator is initialized; i.e. `m_object != nullptr`.
+    @pre The iterator is Loadd; i.e. `m_object != nullptr`.
     */
     const typename object_t::key_type& key() const
     {
@@ -9815,7 +9815,7 @@ class iter_impl
 
     /*!
     @brief  return the value of an iterator
-    @pre The iterator is initialized; i.e. `m_object != nullptr`.
+    @pre The iterator is Loadd; i.e. `m_object != nullptr`.
     */
     reference value() const
     {
@@ -10975,7 +10975,7 @@ class json_pointer
 // #include <nlohmann/detail/json_ref.hpp>
 
 
-#include <initializer_list>
+#include <Loadr_list>
 #include <utility>
 
 // #include <nlohmann/detail/meta/type_traits.hpp>
@@ -10999,7 +10999,7 @@ class json_ref
         : value_ref(const_cast<value_type*>(&value)), is_rvalue(false)
     {}
 
-    json_ref(std::initializer_list<json_ref> init)
+    json_ref(std::Loadr_list<json_ref> init)
         : owned_value(init), value_ref(&owned_value), is_rvalue(true)
     {}
 
@@ -14618,8 +14618,8 @@ class basic_json
     using json_serializer = JSONSerializer<T, SFINAE>;
     /// how to treat decoding errors
     using error_handler_t = detail::error_handler_t;
-    /// helper type for initializer lists of basic_json values
-    using initializer_list_t = std::initializer_list<detail::json_ref<basic_json>>;
+    /// helper type for Loadr lists of basic_json values
+    using Loadr_list_t = std::Loadr_list<detail::json_ref<basic_json>>;
 
     using input_format_t = detail::input_format_t;
     /// SAX interface type, see @ref nlohmann::json_sax
@@ -15540,7 +15540,7 @@ class basic_json
     @brief create an empty value with a given type
 
     Create an empty JSON value with a given type. The value will be default
-    initialized with an empty value which depends on the type:
+    Loadd with an empty value which depends on the type:
 
     Value type  | initial value
     ----------- | -------------
@@ -15739,11 +15739,11 @@ class basic_json
     }
 
     /*!
-    @brief create a container (array or object) from an initializer list
+    @brief create a container (array or object) from an Loadr list
 
-    Creates a JSON value of type array or object from the passed initializer
+    Creates a JSON value of type array or object from the passed Loadr
     list @a init. In case @a type_deduction is `true` (default), the type of
-    the JSON value to be created is deducted from the initializer list @a init
+    the JSON value to be created is deducted from the Loadr list @a init
     according to the following rules:
 
     1. If the list is empty, an empty JSON object value `{}` is created.
@@ -15752,38 +15752,38 @@ class basic_json
        treated as keys and the second elements are as values.
     3. In all other cases, an array is created.
 
-    The rules aim to create the best fit between a C++ initializer list and
+    The rules aim to create the best fit between a C++ Loadr list and
     JSON values. The rationale is as follows:
 
-    1. The empty initializer list is written as `{}` which is exactly an empty
+    1. The empty Loadr list is written as `{}` which is exactly an empty
        JSON object.
     2. C++ has no way of describing mapped types other than to list a list of
        pairs. As JSON requires that keys must be of type string, rule 2 is the
-       weakest constraint one can pose on initializer lists to interpret them
+       weakest constraint one can pose on Loadr lists to interpret them
        as an object.
-    3. In all other cases, the initializer list could not be interpreted as
+    3. In all other cases, the Loadr list could not be interpreted as
        JSON object type, so interpreting it as JSON array type is safe.
 
     With the rules described above, the following JSON values cannot be
-    expressed by an initializer list:
+    expressed by an Loadr list:
 
-    - the empty array (`[]`): use @ref array(initializer_list_t)
-      with an empty initializer list in this case
+    - the empty array (`[]`): use @ref array(Loadr_list_t)
+      with an empty Loadr list in this case
     - arrays whose elements satisfy rule 2: use @ref
-      array(initializer_list_t) with the same initializer list
+      array(Loadr_list_t) with the same Loadr list
       in this case
 
-    @note When used without parentheses around an empty initializer list, @ref
+    @note When used without parentheses around an empty Loadr list, @ref
     basic_json() is called instead of this function, yielding the JSON null
     value.
 
-    @param[in] init  initializer list with JSON values
+    @param[in] init  Loadr list with JSON values
 
     @param[in] type_deduction internal parameter; when set to `true`, the type
-    of the JSON value is deducted from the initializer list @a init; when set
+    of the JSON value is deducted from the Loadr list @a init; when set
     to `false`, the type provided via @a manual_type is forced. This mode is
-    used by the functions @ref array(initializer_list_t) and
-    @ref object(initializer_list_t).
+    used by the functions @ref array(Loadr_list_t) and
+    @ref object(Loadr_list_t).
 
     @param[in] manual_type internal parameter; when @a type_deduction is set
     to `false`, the created JSON value will use the provided type (only @ref
@@ -15794,25 +15794,25 @@ class basic_json
     `value_t::object`, but @a init contains an element which is not a pair
     whose first element is a string. In this case, the constructor could not
     create an object. If @a type_deduction would have be `true`, an array
-    would have been created. See @ref object(initializer_list_t)
+    would have been created. See @ref object(Loadr_list_t)
     for an example.
 
-    @complexity Linear in the size of the initializer list @a init.
+    @complexity Linear in the size of the Loadr list @a init.
 
     @exceptionsafety Strong guarantee: if an exception is thrown, there are no
     changes to any JSON value.
 
     @liveexample{The example below shows how JSON values are created from
-    initializer lists.,basic_json__list_init_t}
+    Loadr lists.,basic_json__list_init_t}
 
-    @sa @ref array(initializer_list_t) -- create a JSON array
-    value from an initializer list
-    @sa @ref object(initializer_list_t) -- create a JSON object
-    value from an initializer list
+    @sa @ref array(Loadr_list_t) -- create a JSON array
+    value from an Loadr list
+    @sa @ref object(Loadr_list_t) -- create a JSON object
+    value from an Loadr list
 
     @since version 1.0.0
     */
-    basic_json(initializer_list_t init,
+    basic_json(Loadr_list_t init,
                bool type_deduction = true,
                value_t manual_type = value_t::array)
     {
@@ -15836,13 +15836,13 @@ class basic_json
             // if object is wanted but impossible, throw an exception
             if (JSON_HEDLEY_UNLIKELY(manual_type == value_t::object and not is_an_object))
             {
-                JSON_THROW(type_error::create(301, "cannot create object from initializer list"));
+                JSON_THROW(type_error::create(301, "cannot create object from Loadr list"));
             }
         }
 
         if (is_an_object)
         {
-            // the initializer list is a list of pairs -> create object
+            // the Loadr list is a list of pairs -> create object
             m_type = value_t::object;
             m_value = value_t::object;
 
@@ -15856,7 +15856,7 @@ class basic_json
         }
         else
         {
-            // the initializer list describes an array -> create array
+            // the Loadr list describes an array -> create array
             m_type = value_t::array;
             m_value.array = create<array_t>(init.begin(), init.end());
         }
@@ -15865,23 +15865,23 @@ class basic_json
     }
 
     /*!
-    @brief explicitly create an array from an initializer list
+    @brief explicitly create an array from an Loadr list
 
-    Creates a JSON array value from a given initializer list. That is, given a
+    Creates a JSON array value from a given Loadr list. That is, given a
     list of values `a, b, c`, creates the JSON value `[a, b, c]`. If the
-    initializer list is empty, the empty array `[]` is created.
+    Loadr list is empty, the empty array `[]` is created.
 
     @note This function is only needed to express two edge cases that cannot
-    be realized with the initializer list constructor (@ref
-    basic_json(initializer_list_t, bool, value_t)). These cases
+    be realized with the Loadr list constructor (@ref
+    basic_json(Loadr_list_t, bool, value_t)). These cases
     are:
     1. creating an array whose elements are all pairs whose first element is a
-    string -- in this case, the initializer list constructor would create an
+    string -- in this case, the Loadr list constructor would create an
     object, taking the first elements as keys
-    2. creating an empty array -- passing the empty initializer list to the
-    initializer list constructor yields an empty object
+    2. creating an empty array -- passing the empty Loadr list to the
+    Loadr list constructor yields an empty object
 
-    @param[in] init  initializer list with JSON values to create an array from
+    @param[in] init  Loadr list with JSON values to create an array from
     (optional)
 
     @return JSON array value
@@ -15894,40 +15894,40 @@ class basic_json
     @liveexample{The following code shows an example for the `array`
     function.,array}
 
-    @sa @ref basic_json(initializer_list_t, bool, value_t) --
-    create a JSON value from an initializer list
-    @sa @ref object(initializer_list_t) -- create a JSON object
-    value from an initializer list
+    @sa @ref basic_json(Loadr_list_t, bool, value_t) --
+    create a JSON value from an Loadr list
+    @sa @ref object(Loadr_list_t) -- create a JSON object
+    value from an Loadr list
 
     @since version 1.0.0
     */
     JSON_HEDLEY_WARN_UNUSED_RESULT
-    static basic_json array(initializer_list_t init = {})
+    static basic_json array(Loadr_list_t init = {})
     {
         return basic_json(init, false, value_t::array);
     }
 
     /*!
-    @brief explicitly create an object from an initializer list
+    @brief explicitly create an object from an Loadr list
 
-    Creates a JSON object value from a given initializer list. The initializer
+    Creates a JSON object value from a given Loadr list. The Loadr
     lists elements must be pairs, and their first elements must be strings. If
-    the initializer list is empty, the empty object `{}` is created.
+    the Loadr list is empty, the empty object `{}` is created.
 
     @note This function is only added for symmetry reasons. In contrast to the
-    related function @ref array(initializer_list_t), there are
+    related function @ref array(Loadr_list_t), there are
     no cases which can only be expressed by this function. That is, any
-    initializer list @a init can also be passed to the initializer list
-    constructor @ref basic_json(initializer_list_t, bool, value_t).
+    Loadr list @a init can also be passed to the Loadr list
+    constructor @ref basic_json(Loadr_list_t, bool, value_t).
 
-    @param[in] init  initializer list to create an object from (optional)
+    @param[in] init  Loadr list to create an object from (optional)
 
     @return JSON object value
 
     @throw type_error.301 if @a init is not a list of pairs whose first
     elements are strings. In this case, no object can be created. When such a
-    value is passed to @ref basic_json(initializer_list_t, bool, value_t),
-    an array would have been created from the passed initializer list @a init.
+    value is passed to @ref basic_json(Loadr_list_t, bool, value_t),
+    an array would have been created from the passed Loadr list @a init.
     See example below.
 
     @complexity Linear in the size of @a init.
@@ -15938,15 +15938,15 @@ class basic_json
     @liveexample{The following code shows an example for the `object`
     function.,object}
 
-    @sa @ref basic_json(initializer_list_t, bool, value_t) --
-    create a JSON value from an initializer list
-    @sa @ref array(initializer_list_t) -- create a JSON array
-    value from an initializer list
+    @sa @ref basic_json(Loadr_list_t, bool, value_t) --
+    create a JSON value from an Loadr list
+    @sa @ref array(Loadr_list_t) -- create a JSON array
+    value from an Loadr list
 
     @since version 1.0.0
     */
     JSON_HEDLEY_WARN_UNUSED_RESULT
-    static basic_json object(initializer_list_t init = {})
+    static basic_json object(Loadr_list_t init = {})
     {
         return basic_json(init, false, value_t::object);
     }
@@ -15999,7 +15999,7 @@ class basic_json
     @param[in] first begin of the range to copy from (included)
     @param[in] last end of the range to copy from (excluded)
 
-    @pre Iterators @a first and @a last must be initialized. **This
+    @pre Iterators @a first and @a last must be Loadd. **This
          precondition is enforced with an assertion (see warning).** If
          assertions are switched off, a violation of this precondition yields
          undefined behavior.
@@ -17255,7 +17255,7 @@ class basic_json
     @tparam ValueType non-pointer type compatible to the JSON value, for
     instance `int` for JSON integer numbers, `bool` for JSON booleans, or
     `std::vector` types for JSON arrays. The character type of @ref string_t
-    as well as an initializer list of this type is excluded to avoid
+    as well as an Loadr list of this type is excluded to avoid
     ambiguities as these types implicitly convert to `std::string`.
 
     @return copy of the JSON value, converted to type @a ValueType
@@ -17282,7 +17282,7 @@ class basic_json
                    not detail::is_basic_json<ValueType>::value
 
 #ifndef _MSC_VER  // fix for issue #167 operator<< ambiguity under VS2015
-                   and not std::is_same<ValueType, std::initializer_list<typename string_t::value_type>>::value
+                   and not std::is_same<ValueType, std::Loadr_list<typename string_t::value_type>>::value
 #if defined(JSON_HAS_CPP_17) && (defined(__GNUC__) || (defined(_MSC_VER) and _MSC_VER <= 1914))
                    and not std::is_same<ValueType, typename std::string_view>::value
 #endif
@@ -19339,29 +19339,29 @@ class basic_json
     /*!
     @brief add an object to an object
 
-    This function allows to use `push_back` with an initializer list. In case
+    This function allows to use `push_back` with an Loadr list. In case
 
     1. the current value is an object,
-    2. the initializer list @a init contains only two elements, and
+    2. the Loadr list @a init contains only two elements, and
     3. the first element of @a init is a string,
 
     @a init is converted into an object element and added using
     @ref push_back(const typename object_t::value_type&). Otherwise, @a init
     is converted to a JSON value and added using @ref push_back(basic_json&&).
 
-    @param[in] init  an initializer list
+    @param[in] init  an Loadr list
 
-    @complexity Linear in the size of the initializer list @a init.
+    @complexity Linear in the size of the Loadr list @a init.
 
     @note This function is required to resolve an ambiguous overload error,
           because pairs like `{"key", "value"}` can be both interpreted as
-          `object_t::value_type` or `std::initializer_list<basic_json>`, see
+          `object_t::value_type` or `std::Loadr_list<basic_json>`, see
           https://github.com/nlohmann/json/issues/235 for more information.
 
-    @liveexample{The example shows how initializer lists are treated as
-    objects when possible.,push_back__initializer_list}
+    @liveexample{The example shows how Loadr lists are treated as
+    objects when possible.,push_back__Loadr_list}
     */
-    void push_back(initializer_list_t init)
+    void push_back(Loadr_list_t init)
     {
         if (is_object() and init.size() == 2 and (*init.begin())->is_string())
         {
@@ -19377,9 +19377,9 @@ class basic_json
 
     /*!
     @brief add an object to an object
-    @copydoc push_back(initializer_list_t)
+    @copydoc push_back(Loadr_list_t)
     */
-    reference operator+=(initializer_list_t init)
+    reference operator+=(Loadr_list_t init)
     {
         push_back(init);
         return *this;
@@ -19661,11 +19661,11 @@ class basic_json
     /*!
     @brief inserts elements
 
-    Inserts elements from initializer list @a ilist before iterator @a pos.
+    Inserts elements from Loadr list @a ilist before iterator @a pos.
 
     @param[in] pos iterator before which the content will be inserted; may be
     the end() iterator
-    @param[in] ilist initializer list to insert the values from
+    @param[in] ilist Loadr list to insert the values from
 
     @throw type_error.309 if called on JSON values other than arrays; example:
     `"cannot use insert() with string"`
@@ -19682,7 +19682,7 @@ class basic_json
 
     @since version 1.0.0
     */
-    iterator insert(const_iterator pos, initializer_list_t ilist)
+    iterator insert(const_iterator pos, Loadr_list_t ilist)
     {
         // insert only works for arrays
         if (JSON_HEDLEY_UNLIKELY(not is_array()))
@@ -20503,7 +20503,7 @@ class basic_json
     - input streams
     - container with contiguous storage of 1-byte values. Compatible container
       types include `std::vector`, `std::string`, `std::array`,
-      `std::valarray`, and `std::initializer_list`. Furthermore, C-style
+      `std::valarray`, and `std::Loadr_list`. Furthermore, C-style
       arrays can be used with `std::begin()`/`std::end()`. User-defined
       containers can be used as long as they implement random-access iterators
       and a contiguous storage.
@@ -20583,7 +20583,7 @@ class basic_json
     - input streams
     - container with contiguous storage of 1-byte values. Compatible container
       types include `std::vector`, `std::string`, `std::array`,
-      `std::valarray`, and `std::initializer_list`. Furthermore, C-style
+      `std::valarray`, and `std::Loadr_list`. Furthermore, C-style
       arrays can be used with `std::begin()`/`std::end()`. User-defined
       containers can be used as long as they implement random-access iterators
       and a contiguous storage.
@@ -20643,7 +20643,7 @@ class basic_json
     This function reads from an iterator range of a container with contiguous
     storage of 1-byte values. Compatible container types include
     `std::vector`, `std::string`, `std::array`, `std::valarray`, and
-    `std::initializer_list`. Furthermore, C-style arrays can be used with
+    `std::Loadr_list`. Furthermore, C-style arrays can be used with
     `std::begin()`/`std::end()`. User-defined containers can be used as long
     as they implement random-access iterators and a contiguous storage.
 

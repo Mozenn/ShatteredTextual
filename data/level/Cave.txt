@@ -1,0 +1,12 @@
+[text]
+cave level 
+
+[choices]
+explore further into cave : caveCorridor
+look closer to current location : pileOfStone
+sleep a bit : sleepCave
+
+[links]
+CaveCorridor
+CaveDetail
+CaveSleep

@@ -3,32 +3,55 @@
 #include "GameState.h"
 #include <stack>
 #include <memory>
+#include <string>
 
-using StateRef = std::unique_ptr<GameState>;
-
-class GameStateManager
+namespace SL
 {
-public:
+	using StateRef = std::shared_ptr<GameState>;
 
-	GameStateManager();
+	class GameStateManager
+	{
+	public:
 
-	~GameStateManager();
+		GameStateManager();
 
-	void PushState(StateRef State, bool isReplacing);
+		template<class T>
+		void Initialize(std::string startState = "CaveStart")
+		{
+			StateRef newState = std::make_shared<T>(startState);
 
-	void PopState();
+			states.push(newState);
+		}
+
+		void DisplayCurrentState();
+
+		template<class T>
+		void LoadNewState(std::string stateName, bool isReplacing)
+		{
+			if (isReplacing && !states.empty())
+				states.pop();
+
+			StateRef newState = std::make_shared<T>(stateName);
+
+			states.push(newState);
+		}
+
+		void HandleInput();
+
+		template<class T>
+		void HandleCurrentStateEnd(std::string nextState)
+		{
+			LoadNewState<T>(nextState, true);
+
+		}
+
+		std::string GetCurrentStateName(); 
+
+	protected:
+
+		std::stack<StateRef> states;
+	};
+}
 
 
-	void HandleInput();
-
-	void Update();
-
-	void Draw();
-
-	StateRef getCurrentState() const;
-
-protected:
-
-	std::stack<StateRef> states;
-};
 

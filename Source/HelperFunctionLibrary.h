@@ -2,23 +2,30 @@
 
 #include <vector>
 #include <string>
+#include "SLTypes.h"
 
-class HelperFunctionLibrary
+namespace SL
 {
 
-public :
+	class HelperFunctionLibrary
+	{
 
-	static void SkipLine();
+	public:
 
-	static void SkipLines(int const& n);
+		static void SkipLine();
 
-	static void DisplayLine();
+		static void SkipLines(int const& n);
 
-	static void MakeGap(int const& n);
+		static void DisplayLine();
 
-	static void DisplayChoices(std::vector<std::string> const& choices);
+		static void MakeGap(int const& n);
 
-	static int GetUserInput(int const& min, int const&  max);
+		static void DisplayChoices(std::vector<std::string> const& choices);
 
-};
+		static int GetUserInput(int const& min, int const& max);
 
+		static SearchResult GetPositionInFile(std::istream& file, std::string search);
+
+	};
+
+}
