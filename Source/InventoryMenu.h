@@ -10,11 +10,11 @@ namespace SL
 
 		InventoryMenu();
 
-		~InventoryMenu();
+		InventoryMenu(std::string p_name);
 
 		virtual void Display() override;
 
-		virtual void HandleInput() override;
+		virtual void HandleInput(int input) override;
 	};
 }
 

@@ -1,24 +1,27 @@
 #pragma once
 #include <string>
 #include <vector>
+#include "Save.h"
 
 namespace SL
 {
+	class Save;
+
 	class Inventory
 	{
 	public:
 
 		void DisplayInventory();
 
-		bool Contains();
-
 		void AddToInventory(std::string newItem);
 
-		void Save();
+		void Save(Save& save);
+
+		void Load(SL::Save& save);
 
 	private:
 
-		std::vector<std::string> Items;
+		std::vector<std::string> items;
 	};
 }
 

@@ -8,15 +8,25 @@ namespace SL
 	// class containing every data needed to be saved 
 	class Save
 	{
-		public : 
+	public:
 
-			std::string currentLevel; 
+		Save();
 
-			std::vector<std::string> items;
+		Save(std::string name);
 
-			std::map<std::string, int> progression;
+		std::string currentLevel;
 
-			//void SaveGame();
+		std::vector<std::string> items;
+
+		std::map<std::string, int> progression;
+
+		void SaveSlot();
+
+		bool LoadSlot();
+
+	private:
+
+		std::string saveName;
 	};
 
 }

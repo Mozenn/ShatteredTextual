@@ -37,6 +37,7 @@ namespace SL
 		{
 			std::cout << i + 1 << " " << choices[i] << std::endl;
 		}
+		SkipLine();
 	}
 
 	int HelperFunctionLibrary::GetUserInput(int const& min, int const& max)
@@ -54,6 +55,34 @@ namespace SL
 				bInputOK = true;
 			}
 			else
+			{
+				std::cout << "Wrong Input" << std::endl;
+			}
+
+		}
+
+		return input;
+	}
+
+	int HelperFunctionLibrary::GetUserInput(std::vector<std::pair<int, int>>& validRanges)
+	{
+		bool bInputOK = false;
+		int input;
+		
+		while (!bInputOK)
+		{
+			std::cin >> input;
+			std::cin.ignore();
+
+			for (auto it : validRanges)
+			{
+				if (input >= it.first && input <= it.second)
+				{
+					bInputOK = true;
+				}
+			}
+
+			if(!bInputOK)
 				std::cout << "Wrong Input" << std::endl;
 		}
 
@@ -69,16 +98,17 @@ namespace SL
 
 			file.seekg(0, file.beg);
 
-			getline(file, line);
+			HelperFunctionLibrary::SLgetline(file, line);
 
-			while (!line.empty() || found)
+			while (line != "*" && !found)
 			{
-				if (line.find(search) == std::string::npos)
+				if (line.find(search) != std::string::npos)
 				{
 					found = true;
 
 					return SearchResult(file.tellg(),found);
 				}
+				HelperFunctionLibrary::SLgetline(file, line);
 			}
 
 			return SearchResult(std::streampos(),found);
@@ -86,6 +116,23 @@ namespace SL
 		}
 
 		return SearchResult(std::streampos(), false);
+	}
+
+	std::istream& HelperFunctionLibrary::SLgetline(std::istream& is, std::string& str)
+	{
+		bool bIsValid = false; 
+		
+
+		while (!bIsValid && getline(is, str))
+		{
+			if (str.substr(0, 2) != "//")
+			{
+				bIsValid = true;
+			}
+				
+		}
+
+		return is;
 	}
 
 }

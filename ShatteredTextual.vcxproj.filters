@@ -45,7 +45,10 @@
     <ClInclude Include="Source\nlohmann\json.hpp">
       <Filter>Header Files\nlohmann</Filter>
     </ClInclude>
-    <ClInclude Include="Save.h">
+    <ClInclude Include="Source\Save.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Event.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -74,7 +77,10 @@
     <ClCompile Include="Source\ShatteredTextual.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Save.cpp">
+    <ClCompile Include="Source\Save.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Event.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

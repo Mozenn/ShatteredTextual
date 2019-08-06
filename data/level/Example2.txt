@@ -1,0 +1,20 @@
+[description]
+description text 
+
+[choices]
+choice 1
+choice 2
+choice 3
+
+[links]
+Start
+Example3
+Example1
+
+[items]
+item1 item2
+
+[progressions]
+progression1 progression2 progression3
+
+*

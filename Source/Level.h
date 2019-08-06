@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 #include "GameState.h"
+#include "Event.h"
+#
 
 namespace SL
 {
@@ -14,12 +16,13 @@ namespace SL
 
 		Level(std::string levelName);
 
+		Event<void(std::string)> OnNewItem; 
+
+		Event<void(std::string)> OnNewProgressionEvent;
+
 		virtual void Display() override;
 
-		virtual void HandleInput() override;
-
-		// event OnNewItem
-		//event OnNewProgression 
+		virtual void HandleInput(int input) override;
 
 	private :
 

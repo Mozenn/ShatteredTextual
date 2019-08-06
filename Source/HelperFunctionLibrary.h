@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include "SLTypes.h"
+#include <istream>
 
 namespace SL
 {
@@ -24,7 +25,12 @@ namespace SL
 
 		static int GetUserInput(int const& min, int const& max);
 
+		static int GetUserInput(std::vector<std::pair<int, int>>& validRanges);
+
 		static SearchResult GetPositionInFile(std::istream& file, std::string search);
+
+		// simple getline but ignore commented line with "//" 
+		static std::istream& SLgetline(std::istream& is, std::string& str);
 
 	};
 

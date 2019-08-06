@@ -21,6 +21,7 @@ namespace SL
 			std::string line; 
 			SearchResult res; 
 
+			//TODO : handle condition for description, choices & link 
 
 			// load description 
 			res = HelperFunctionLibrary::GetPositionInFile(levelFile, "[description]");
@@ -30,7 +31,7 @@ namespace SL
 
 				do
 				{
-					getline(levelFile, line);
+					HelperFunctionLibrary::SLgetline(levelFile, line);
 
 					description += line;
 				} while (!line.empty());
@@ -46,9 +47,10 @@ namespace SL
 
 				do
 				{
-					getline(levelFile, line);
+					HelperFunctionLibrary::SLgetline(levelFile, line);
 
-					choices.push_back(line) ;
+					if(!line.empty())
+						choices.push_back(line) ;
 
 				} while (!line.empty());
 
@@ -62,9 +64,9 @@ namespace SL
 
 				do
 				{
-					getline(levelFile, line);
+					HelperFunctionLibrary::SLgetline(levelFile, line);
 
-					choices.push_back(line);
+					links.push_back(line);
 
 				} while (!line.empty());
 
@@ -77,13 +79,13 @@ namespace SL
 			{
 				levelFile.seekg(res.position);
 
-				getline(levelFile, line);
+				HelperFunctionLibrary::SLgetline(levelFile, line);
 
 				std::stringstream lineStream(line); 
 				std::string it; 
 				while (lineStream >> it)
 				{
-					// TODO call OnNewItem
+					OnNewItem.Broadcast(it);
 				}
 
 			}
@@ -95,16 +97,18 @@ namespace SL
 			{
 				levelFile.seekg(res.position);
 
-				getline(levelFile, line);
+				HelperFunctionLibrary::SLgetline(levelFile, line);
 
 				std::stringstream lineStream(line);
 				std::string it;
 				while (lineStream >> it)
 				{
-					// TODO call OnNewProgression
+					OnNewProgressionEvent.Broadcast(it);
 				}
 
 			}
+
+			levelFile.close();
 		}
 
 	}
@@ -115,17 +119,20 @@ namespace SL
 		// display description 
 		std::cout << description << std::endl; 
 
+		HelperFunctionLibrary::SkipLine();
+
 		// display choices 
 		HelperFunctionLibrary::DisplayChoices(choices); 
 	}
 
-	void Level::HandleInput()
+	void Level::HandleInput(int input)
 	{
-		//wait for input 
-		int input = HelperFunctionLibrary::GetUserInput(1, (int)choices.size());
+		if (input <= choices.size() && input >= 1)
+		{
+			std::string nextLevel = links[input];
 
-		std::string nextLevel = links[input]; 
+			OnStateEnd.Broadcast<std::string>(nextLevel);
+		}
 
-		// TODO : call onChangedLevel()
 	}
 }

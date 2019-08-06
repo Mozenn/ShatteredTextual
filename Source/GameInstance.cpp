@@ -2,16 +2,25 @@
 #include "HelperFunctionLibrary.h"
 #include <fstream>
 #include <iostream>
+#include <sstream>
 #include <memory>
 #include "GameStateManager.h"
 #include "Level.h"
 #include "Save.h"
+#include "InventoryMenu.h"
+#include <algorithm>
 
 namespace SL
 {
-	GameInstance::GameInstance(std::string name) : bExitGame(false), m_name(name)
+	GameInstance::GameInstance() : bExitGame(false)
 	{
 		InitializeProgression();
+	}
+
+	void GameInstance::Initialize(std::string name)
+	{
+		m_name = name;
+		save = std::make_shared<Save>(name);
 	}
 
 	void GameInstance::GameLoop()
@@ -25,74 +34,111 @@ namespace SL
 			HelperFunctionLibrary::SkipLine();
 
 			// Display HUD (Save, see inventory, quit game)  
-			void DisplayHUD();
+			DisplayHUD();
 
 			// Display Level (description & choices) 
 			levelManager->DisplayCurrentState();
-			// Wait for input 
-			levelManager->HandleInput();
+			// Handle Input for input 
+			HandleInput();
+		}
+	}
+
+	void GameInstance::HandleInput()
+	{
+		int input = HelperFunctionLibrary::GetUserInput(1,9);
+
+		switch (input)
+		{
+		case 7:
+		{
+			levelManager->LoadNewState<InventoryMenu>("inventoryMenu", false); 
+			break;
+		}
+		case 8:
+		{
+			SaveGame();
+			break;
+		}
+		case 9:
+		{
+			QuitGame();
+			break;
+		}
+		default:
+		{
+			levelManager->HandleInput(input);
+		}
 		}
 	}
 
 	void GameInstance::InitializeProgression()
 	{
-		// TODO 
+		// loop the data/progression and fill the map with all data with stringstream 
+
+		std::string fileName = "data/progressionEventList.txt" ;
+		std::ifstream File(fileName.c_str());
+
+		if (File)
+		{
+
+			std::string line; 
+			HelperFunctionLibrary::SLgetline(File, line);
+
+			std::stringstream lineStream(line);
+			std::string prog, bit;
+			while (lineStream >> prog)
+			{
+				progression[prog] = 0;
+			}
+
+			File.close();
+		}
+	}
+
+	void GameInstance::HandleOnNewItem(std::string newItem)
+	{
+		inventory->AddToInventory(newItem);
+	}
+
+	void GameInstance::HandleOnNewProgressionEvent(std::string newProg)
+	{
+		if (progression.find(newProg) != progression.end())
+		{
+			progression[newProg] = 1; 
+		}
+		
 	}
 
 	bool GameInstance::LoadGame(bool bNewGame)
 	{
 		if (bNewGame)
 		{
-			levelManager = std::make_unique<GameStateManager>();
+			levelManager = std::make_unique<GameStateManager>(this);
 			levelManager->Initialize<Level>();
 		}
 		else
 		{
-			// open save file 
-			std::ifstream saveFile("data/save/" + m_name);
+			save->LoadSlot();
 
-			if (!saveFile)
-			{
-				return false;
-			}
+			levelManager = std::make_unique<GameStateManager>(this);
+			levelManager->Initialize<Level>(save->currentLevel);
 
-			std::string line;
-			SearchResult res;
+			inventory->Load(*save);
 
-			// load progression 
-			res = HelperFunctionLibrary::GetPositionInFile(saveFile, "[progression]");
-			if (res.bFound)
-			{
+			progression = save->progression;
 
-
-			}
-
-			// load & set current level 
-			std::string currentLevel;
-
-			levelManager = std::make_unique<GameStateManager>();
-			levelManager->Initialize<Level>(currentLevel);
-
-			// load inventory
 		}
 
+		return true; 
 	}
 
-	void GameInstance::SaveGame() // TODO 
+	void GameInstance::SaveGame() 
 	{
-		std::string saveFileName = "data/save/" + m_name + ".txt";
-		std::ofstream saveFile(saveFileName.c_str());
+		LocalSave();
 
-		if (saveFile)
-		{
-			// save current level 
-			saveFile << levelManager->GetCurrentStateName() << std::endl; 
-			// save inventory 
-			inventory->Save();
+		inventory->Save(*save);
 
-			// save progression 
-
-		}
+		save->SaveSlot();
 	}
 
 	void GameInstance::DisplayHUD()
@@ -101,10 +147,22 @@ namespace SL
 		std::cout << "7. inventory  ||  8. save || 9. quit" << std::endl; 
 		HelperFunctionLibrary::SkipLine();
 	}
+
+	void GameInstance::DisplayInventory()
+	{
+		inventory->DisplayInventory();
+	}
 	
 	void GameInstance::QuitGame()
 	{
 		bExitGame = true; 
+	}
+
+	void GameInstance::LocalSave()
+	{
+		save->currentLevel = levelManager->GetCurrentStateName();
+
+		save->progression = progression; 
 	}
 }
 

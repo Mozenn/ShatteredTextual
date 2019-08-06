@@ -16,7 +16,13 @@ namespace SL
 
 	public:
 
-		GameInstance(std::string name);
+		static GameInstance& Get()
+		{
+			static GameInstance* instance = new GameInstance();
+			return *instance;
+		}
+
+		void Initialize(std::string name);
 
 		void GameLoop();
 
@@ -28,7 +34,15 @@ namespace SL
 
 		void DisplayHUD();
 
+		void DisplayInventory();
+
+		void HandleOnNewItem(std::string newItem); 
+
+		void HandleOnNewProgressionEvent(std::string newProg);
+
 	private:
+
+		GameInstance();
 
 		std::map<std::string,int> progression;
 
@@ -40,9 +54,13 @@ namespace SL
 
 		std::unique_ptr<GameStateManager> levelManager;
 
-		//Save save;
+		std::shared_ptr<Save> save;
 
 		void InitializeProgression();
+
+		void LocalSave();
+
+		void HandleInput();
 	};
 }
 

@@ -154,7 +154,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Save.h" />
+    <ClInclude Include="Source\Event.h" />
     <ClInclude Include="Source\GameInstance.h" />
     <ClInclude Include="Source\GameState.h" />
     <ClInclude Include="Source\GameStateManager.h" />
@@ -163,10 +163,11 @@
     <ClInclude Include="Source\InventoryMenu.h" />
     <ClInclude Include="Source\Level.h" />
     <ClInclude Include="Source\nlohmann\json.hpp" />
+    <ClInclude Include="Source\Save.h" />
     <ClInclude Include="Source\SLTypes.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Save.cpp" />
+    <ClCompile Include="Source\Event.cpp" />
     <ClCompile Include="Source\GameInstance.cpp" />
     <ClCompile Include="Source\GameState.cpp" />
     <ClCompile Include="Source\GameStateManager.cpp" />
@@ -174,6 +175,7 @@
     <ClCompile Include="Source\Inventory.cpp" />
     <ClCompile Include="Source\InventoryMenu.cpp" />
     <ClCompile Include="Source\Level.cpp" />
+    <ClCompile Include="Source\Save.cpp" />
     <ClCompile Include="Source\ShatteredTextual.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

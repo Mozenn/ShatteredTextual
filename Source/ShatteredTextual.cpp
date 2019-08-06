@@ -11,7 +11,6 @@
 #include "GameInstance.h"
 
 namespace fs = std::experimental::filesystem;
-//using json = nlohmann::json;
 
 // return if save already existing 
 bool DisplayMenu()
@@ -19,7 +18,7 @@ bool DisplayMenu()
 
 	std::string line;
 	std::ifstream Icon("Data/Icon.txt");
-	while (getline(Icon, line))
+	while (SL::HelperFunctionLibrary::SLgetline(Icon, line))
 	{
 		std::cout << line << std::endl;
 	}
@@ -39,7 +38,6 @@ bool DisplayMenu()
 	}
 	else
 	{
-		std::vector<std::string> menuChoices;
 		menuChoices.insert(menuChoices.end(), { "New Game","Quit Game" });
 	}
 
@@ -87,9 +85,9 @@ int main()
 		int saveInput = SL::HelperFunctionLibrary::GetUserInput(1, (int)slotNames.size());
 
 		// Launch gameinstance & gameloop 
-		SL::GameInstance game(slotNames[saveInput]);
-		game.LoadGame(false);
-		game.GameLoop();
+		SL::GameInstance::Get().Initialize(slotNames[saveInput]);
+		SL::GameInstance::Get().LoadGame(false);
+		SL::GameInstance::Get().GameLoop();
 
 	}
 	else if (menuInput == 2 && !bIsSaveFolderEmpty || menuInput == 1 && bIsSaveFolderEmpty)
@@ -101,9 +99,9 @@ int main()
 		std::cin.ignore();
 
 		// Launch gameinstance & gameloop 
-		SL::GameInstance game(name);
-		game.LoadGame(true);
-		game.GameLoop();
+		SL::GameInstance::Get().Initialize(name);
+		SL::GameInstance::Get().LoadGame(true);
+		SL::GameInstance::Get().GameLoop();
 	}
 
 
