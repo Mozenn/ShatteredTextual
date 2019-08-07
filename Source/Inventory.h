@@ -11,6 +11,8 @@ namespace SL
 	{
 	public:
 
+		Inventory(); 
+
 		void DisplayInventory();
 
 		void AddToInventory(std::string newItem);

@@ -6,6 +6,12 @@
 
 namespace SL
 {
+
+	Inventory::Inventory()
+	{
+		items.clear();
+	}
+
 	void Inventory::DisplayInventory()
 	{
 		HelperFunctionLibrary::SkipLine();
@@ -30,10 +36,18 @@ namespace SL
 
 	void Inventory::AddToInventory(std::string newItem)
 	{
-		if (std::find(items.begin(),items.end(),newItem) != items.end())
+		if (!items.empty())
+		{
+			if (std::find(items.begin(), items.end(), newItem) != items.end())
+			{
+				items.push_back(newItem);
+			}
+		}
+		else
 		{
 			items.push_back(newItem);
 		}
+
 	}
 
 	void Inventory::Save(SL::Save& save)

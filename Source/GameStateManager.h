@@ -6,12 +6,13 @@
 #include <memory>
 #include <string>
 #include <functional>
+#include "GameInstance.h"
 
 namespace SL
 {
 	using StateRef = std::shared_ptr<GameState>;
 
-	class GameInstance; 
+	//class GameInstance; 
 
 	class GameStateManager
 	{
@@ -71,13 +72,13 @@ namespace SL
 			auto newLevel = std::dynamic_pointer_cast<Level>(newState);
 			if (newLevel)
 			{
-				//// bind onNewItem event 
-				//std::function<void(std::string)> itemFunction = std::bind(&GameInstance::HandleOnNewItem, owingInstance, std::placeholders::_1);
-				//newLevel->OnNewItem.Add(itemFunction);
+				// bind onNewItem event 
+				std::function<void(std::string)> itemFunction = std::bind(&GameInstance::HandleOnNewItem, owingInstance, std::placeholders::_1);
+				newLevel->OnNewItem.Add(itemFunction);
 
-				//// bind onNewprogevent event
-				//std::function<void(std::string)> progFunction = std::bind(&GameInstance::HandleOnNewProgressionEvent, owingInstance, std::placeholders::_1);
-				//newLevel->OnNewProgressionEvent.Add(progFunction);
+				// bind onNewprogevent event
+				std::function<void(std::string)> progFunction = std::bind(&GameInstance::HandleOnNewProgressionEvent, owingInstance, std::placeholders::_1);
+				newLevel->OnNewProgressionEvent.Add(progFunction);
 			}
 		}
 
