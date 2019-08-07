@@ -70,7 +70,7 @@ int main()
 			std::string currentString = entry.path().string();
 			// erase path part 
 			int position = (int)currentString.rfind("\\");
-			currentString = currentString.substr(position + 1);
+			currentString = currentString.substr((position + 1));
 			// erase format 
 			position = (int)currentString.rfind(".");
 			currentString.erase(position);

@@ -22,6 +22,10 @@ namespace SL
 		std::vector<std::string> choices{ "quit inventory" }; 
 
 		HelperFunctionLibrary::DisplayChoices(choices);
+
+		HelperFunctionLibrary::SkipLine();
+		HelperFunctionLibrary::DisplayLine();
+		HelperFunctionLibrary::SkipLine();
 	}
 
 	void Inventory::AddToInventory(std::string newItem)

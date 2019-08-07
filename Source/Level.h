@@ -30,6 +30,10 @@ namespace SL
 
 		std::vector<std::string> choices;
 
+		std::vector<std::string> items;
+
+		std::vector<std::string> progressionEvents;
+
 		// Link levels to choices 
 		std::vector<std::string> links;
 

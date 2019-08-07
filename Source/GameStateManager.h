@@ -30,7 +30,7 @@ namespace SL
 			std::function<void(std::string)> function = std::bind(&GameStateManager::HandleCurrentStateEnd,this,std::placeholders::_1);
 			newState->OnStateEnd.Add(function);
 
-			Level* newLevel = dynamic_cast<Level*>(newState.get()); 
+			auto newLevel = std::dynamic_pointer_cast<Level>(newState);
 			if (newLevel)
 			{
 				// bind onNewItem event 
@@ -50,6 +50,7 @@ namespace SL
 		template<class T>
 		void LoadNewState(std::string stateName, bool isReplacing)
 		{
+
 			if (isReplacing && !states.empty())
 			{
 				StateRef oldState; 
@@ -66,6 +67,18 @@ namespace SL
 
 			std::function<void(std::string)> function = std::bind(&GameStateManager::HandleCurrentStateEnd, this, std::placeholders::_1);
 			newState->OnStateEnd.Add(function);
+
+			auto newLevel = std::dynamic_pointer_cast<Level>(newState);
+			if (newLevel)
+			{
+				//// bind onNewItem event 
+				//std::function<void(std::string)> itemFunction = std::bind(&GameInstance::HandleOnNewItem, owingInstance, std::placeholders::_1);
+				//newLevel->OnNewItem.Add(itemFunction);
+
+				//// bind onNewprogevent event
+				//std::function<void(std::string)> progFunction = std::bind(&GameInstance::HandleOnNewProgressionEvent, owingInstance, std::placeholders::_1);
+				//newLevel->OnNewProgressionEvent.Add(progFunction);
+			}
 		}
 
 		void HandleInput(int input);

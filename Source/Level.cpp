@@ -85,7 +85,7 @@ namespace SL
 				std::string it; 
 				while (lineStream >> it)
 				{
-					OnNewItem.Broadcast(it);
+					items.push_back(it);
 				}
 
 			}
@@ -103,7 +103,7 @@ namespace SL
 				std::string it;
 				while (lineStream >> it)
 				{
-					OnNewProgressionEvent.Broadcast(it);
+					progressionEvents.push_back(it);
 				}
 
 			}
@@ -115,6 +115,26 @@ namespace SL
 
 	void Level::Display()
 	{
+
+		// check item
+		if (!items.empty())
+		{
+			for (auto item : items)
+			{
+				OnNewItem.Broadcast(item);
+			}
+			
+		}
+
+		// check progression 
+		if (!progressionEvents.empty())
+		{
+			for (auto progEvent : progressionEvents)
+			{
+				OnNewProgressionEvent.Broadcast(progEvent);
+			}
+
+		}
 
 		// display description 
 		std::cout << description << std::endl; 
@@ -129,7 +149,7 @@ namespace SL
 	{
 		if (input <= choices.size() && input >= 1)
 		{
-			std::string nextLevel = links[input];
+			std::string nextLevel = links[input-1];
 
 			OnStateEnd.Broadcast<std::string>(nextLevel);
 		}

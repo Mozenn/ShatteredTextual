@@ -4,12 +4,14 @@
 #include <memory>
 #include "Inventory.h"
 #include <map>
-#include "GameStateManager.h"
+//#include "GameStateManager.h"
 
 
 namespace SL
 {
 	class Save;
+
+	class GameStateManager; 
 
 	class GameInstance
 	{

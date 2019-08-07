@@ -1,5 +1,5 @@
 [description]
-description text 
+description Example 
 
 [choices]
 choice 1
