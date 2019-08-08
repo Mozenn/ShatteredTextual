@@ -3,7 +3,7 @@
 #include <memory>
 #include "Level.h"
 
-namespace SL
+namespace ST
 {
 	GameStateManager::GameStateManager(GameInstance* p_owingInstance)
 	{

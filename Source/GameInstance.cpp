@@ -11,11 +11,34 @@
 #include "InventoryMenu.h"
 #include <algorithm>
 
-namespace SL
+namespace ST
 {
 	GameInstance::GameInstance() : bExitGame(false)
 	{
+		inventory = std::make_unique<Inventory>(); 
 		InitializeProgression();
+	}
+
+	void GameInstance::InitializeProgression()
+	{
+		std::string fileName = "data/progressionEventList.txt";
+		std::ifstream File(fileName.c_str());
+
+		if (File)
+		{
+
+			std::string line;
+			HelperFunctionLibrary::STgetline(File, line);
+
+			std::stringstream lineStream(line);
+			std::string prog, bit;
+			while (lineStream >> prog)
+			{
+				progression[prog] = 0;
+			}
+
+			File.close();
+		}
 	}
 
 	void GameInstance::Initialize(std::string name)
@@ -69,30 +92,6 @@ namespace SL
 		{
 			levelManager->HandleInput(input);
 		}
-		}
-	}
-
-	void GameInstance::InitializeProgression()
-	{
-		// loop the data/progression and fill the map with all data with stringstream 
-
-		std::string fileName = "data/progressionEventList.txt" ;
-		std::ifstream File(fileName.c_str());
-
-		if (File)
-		{
-
-			std::string line; 
-			HelperFunctionLibrary::SLgetline(File, line);
-
-			std::stringstream lineStream(line);
-			std::string prog, bit;
-			while (lineStream >> prog)
-			{
-				progression[prog] = 0;
-			}
-
-			File.close();
 		}
 	}
 
@@ -152,6 +151,25 @@ namespace SL
 	void GameInstance::DisplayInventory()
 	{
 		inventory->DisplayInventory();
+	}
+
+	bool GameInstance::CheckItem(std::string item) const
+	{
+		return inventory->Contains(item);
+	}
+
+	bool GameInstance::CheckProgEvent(std::string proEvent) const
+	{
+		if (progression.find(proEvent) != progression.end())
+		{
+			return true;
+		}
+		else
+		{
+			return false; 
+		}
+
+		return false; 
 	}
 	
 	void GameInstance::QuitGame()

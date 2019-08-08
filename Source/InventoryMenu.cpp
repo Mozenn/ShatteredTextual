@@ -3,7 +3,7 @@
 #include "HelperFunctionLibrary.h"
 #include "GameInstance.h"
 
-namespace SL
+namespace ST
 {
 
 	InventoryMenu::InventoryMenu() : GameState()

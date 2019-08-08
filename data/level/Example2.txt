@@ -7,14 +7,15 @@ choice 2
 choice 3
 
 [links]
-Start
+Start Example3 : R 0.5 . ...
 Example3
-Example1
+Example
+
 
 [items]
 item1 item2
 
 [progressions]
-progression1 progression2 progression3
+progression2
 
 *

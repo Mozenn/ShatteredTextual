@@ -7,7 +7,7 @@ choice 2
 choice 3
 
 [links]
-Example2
+Example2 Example3 : I item3 . ... 
 Start
 Example3
 
@@ -15,7 +15,7 @@ Example3
 item1 item2
 
 [progressions]
-progression1 progression2 progression3
+progression1
 
 *
 

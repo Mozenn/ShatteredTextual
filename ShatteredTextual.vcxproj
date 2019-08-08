@@ -162,9 +162,8 @@
     <ClInclude Include="Source\Inventory.h" />
     <ClInclude Include="Source\InventoryMenu.h" />
     <ClInclude Include="Source\Level.h" />
-    <ClInclude Include="Source\nlohmann\json.hpp" />
     <ClInclude Include="Source\Save.h" />
-    <ClInclude Include="Source\SLTypes.h" />
+    <ClInclude Include="Source\STTypes.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Event.cpp" />

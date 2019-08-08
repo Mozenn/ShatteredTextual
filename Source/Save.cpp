@@ -3,10 +3,10 @@
 #include <fstream>
 #include <sstream>
 #include <cstdlib>
-#include "SLTypes.h"
+#include "STTypes.h"
 #include "HelperFunctionLibrary.h"
 
-namespace SL
+namespace ST
 { 
 
 	Save::Save() : saveName("none")
@@ -48,18 +48,18 @@ namespace SL
 		std::string line;
 		SearchResult res;
 
-		std::string saveName = "data/save/" + saveName + ".txt";
-		std::ifstream saveFile(saveName.c_str());
+		std::string tempSaveName = "data/save/" + saveName + ".txt";
+		std::ifstream saveFile(tempSaveName.c_str());
 
 		if(saveFile)
 		{
 			// load current level 
-			HelperFunctionLibrary::SLgetline(saveFile, line);
+			HelperFunctionLibrary::STgetline(saveFile, line);
 
 			currentLevel = line;
 
 			// load inventory
-			HelperFunctionLibrary::SLgetline(saveFile, line);
+			HelperFunctionLibrary::STgetline(saveFile, line);
 
 			std::stringstream itemStream(line);
 			std::string item ;
@@ -69,7 +69,7 @@ namespace SL
 			}
 
 			// load progression 
-			HelperFunctionLibrary::SLgetline(saveFile, line);
+			HelperFunctionLibrary::STgetline(saveFile, line);
 
 			std::stringstream progStream(line);
 			std::string prog, bit;

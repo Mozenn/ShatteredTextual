@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\nlohmann">
-      <UniqueIdentifier>{a9656c9a-c326-4101-8599-48e3f708af94}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\GameInstance.h">
@@ -39,16 +36,13 @@
     <ClInclude Include="Source\Level.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\SLTypes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\nlohmann\json.hpp">
-      <Filter>Header Files\nlohmann</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Save.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Event.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\STTypes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

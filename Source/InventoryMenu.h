@@ -2,7 +2,7 @@
 #include "GameState.h"
 #include <string>
 
-namespace SL
+namespace ST
 {
 	class InventoryMenu :public GameState
 	{

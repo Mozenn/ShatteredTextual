@@ -1,6 +1,6 @@
 #include "GameState.h"
 
-namespace SL
+namespace ST
 {
 	GameState::GameState()
 	{
@@ -14,5 +14,15 @@ namespace SL
 	std::string GameState::GetName() const
 	{
 		return name; 
+	}
+
+	bool GameState::IsEqual(GameState const& B) const 
+	{
+		return name == B.name; 
+	}
+
+	bool operator==(GameState const& A, GameState const& B)
+	{
+		return A.IsEqual(B);
 	}
 }

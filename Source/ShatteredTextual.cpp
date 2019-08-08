@@ -18,21 +18,21 @@ bool DisplayMenu()
 
 	std::string line;
 	std::ifstream Icon("Data/Icon.txt");
-	while (SL::HelperFunctionLibrary::SLgetline(Icon, line))
+	while (ST::HelperFunctionLibrary::STgetline(Icon, line))
 	{
 		std::cout << line << std::endl;
 	}
 
 	Icon.close();
 
-	SL::HelperFunctionLibrary::SkipLines(3);
+	ST::HelperFunctionLibrary::SkipLines(3);
 
 	fs::path savePath("data/save");
-	bool bIsSaveFolderEmpty = fs::is_empty(savePath);
+	bool bIsSaveFolderNotValid= fs::is_empty(savePath) || !fs::exists(savePath);
 
 	std::vector<std::string> menuChoices;
 
-	if (!bIsSaveFolderEmpty)
+	if (!bIsSaveFolderNotValid)
 	{
 		menuChoices.insert(menuChoices.end(), { "Continue","New Game","Quit Game" });
 	}
@@ -41,9 +41,9 @@ bool DisplayMenu()
 		menuChoices.insert(menuChoices.end(), { "New Game","Quit Game" });
 	}
 
-	SL::HelperFunctionLibrary::DisplayChoices(menuChoices);
+	ST::HelperFunctionLibrary::DisplayChoices(menuChoices);
 
-	return bIsSaveFolderEmpty;
+	return bIsSaveFolderNotValid;
 }
 
 
@@ -55,16 +55,16 @@ int main()
 	bIsSaveFolderEmpty = DisplayMenu();
 
 	// Handle input
-	int menuInput = SL::HelperFunctionLibrary::GetUserInput(1, bIsSaveFolderEmpty ? 2 : 3);
+	int menuInput = ST::HelperFunctionLibrary::GetUserInput(1, bIsSaveFolderEmpty ? 2 : 3);
 
 	if (menuInput == 1 && !bIsSaveFolderEmpty)
 	{
 		std::cout << "Welcome back adventurer !" << std::endl;
 		std::cout << "Choose a save slot" << std::endl;
 
-		// Get save slot
+		// Get save STot
 		std::string path = "data/save";
-		std::vector<std::string> slotNames;
+		std::vector<std::string> STotNames;
 		for (const auto& entry : fs::directory_iterator(path))
 		{
 			std::string currentString = entry.path().string();
@@ -74,20 +74,20 @@ int main()
 			// erase format 
 			position = (int)currentString.rfind(".");
 			currentString.erase(position);
-			slotNames.push_back(currentString);
+			STotNames.push_back(currentString);
 		}
 
 
-		// display save slot 
-		SL::HelperFunctionLibrary::DisplayChoices(slotNames);
+		// display save STot 
+		ST::HelperFunctionLibrary::DisplayChoices(STotNames);
 
 		//handle input 
-		int saveInput = SL::HelperFunctionLibrary::GetUserInput(1, (int)slotNames.size());
+		int saveInput = ST::HelperFunctionLibrary::GetUserInput(1, (int)STotNames.size());
 
 		// Launch gameinstance & gameloop 
-		SL::GameInstance::Get().Initialize(slotNames[saveInput]);
-		SL::GameInstance::Get().LoadGame(false);
-		SL::GameInstance::Get().GameLoop();
+		ST::GameInstance::Get().Initialize(STotNames[saveInput-1]);
+		ST::GameInstance::Get().LoadGame(false);
+		ST::GameInstance::Get().GameLoop();
 
 	}
 	else if (menuInput == 2 && !bIsSaveFolderEmpty || menuInput == 1 && bIsSaveFolderEmpty)
@@ -99,9 +99,9 @@ int main()
 		std::cin.ignore();
 
 		// Launch gameinstance & gameloop 
-		SL::GameInstance::Get().Initialize(name);
-		SL::GameInstance::Get().LoadGame(true);
-		SL::GameInstance::Get().GameLoop();
+		ST::GameInstance::Get().Initialize(name);
+		ST::GameInstance::Get().LoadGame(true);
+		ST::GameInstance::Get().GameLoop();
 	}
 
 

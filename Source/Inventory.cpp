@@ -4,33 +4,28 @@
 #include <iostream>
 #include <algorithm>
 
-namespace SL
+namespace ST
 {
 
 	Inventory::Inventory()
 	{
-		items.clear();
 	}
 
 	void Inventory::DisplayInventory()
 	{
 		HelperFunctionLibrary::SkipLine();
-		HelperFunctionLibrary::DisplayLine();
-		HelperFunctionLibrary::SkipLine();
 
 		for (auto item : items)
 		{
-			std::cout << item << " | "; 
+			std::cout << " | " << item ;
 		}
 
-		HelperFunctionLibrary::SkipLine();
+		HelperFunctionLibrary::SkipLines(2);
 
-		std::vector<std::string> choices{ "quit inventory" }; 
+		std::vector<std::string> choices{ "Quit inventory" }; 
 
 		HelperFunctionLibrary::DisplayChoices(choices);
 
-		HelperFunctionLibrary::SkipLine();
-		HelperFunctionLibrary::DisplayLine();
 		HelperFunctionLibrary::SkipLine();
 	}
 
@@ -38,7 +33,7 @@ namespace SL
 	{
 		if (!items.empty())
 		{
-			if (std::find(items.begin(), items.end(), newItem) != items.end())
+			if (std::find(items.begin(), items.end(), newItem) == items.end())
 			{
 				items.push_back(newItem);
 			}
@@ -50,13 +45,25 @@ namespace SL
 
 	}
 
-	void Inventory::Save(SL::Save& save)
+	void Inventory::Save(ST::Save& save)
 	{
 		save.items = items; 
 	}
 
-	void Inventory::Load(SL::Save& save)
+	void Inventory::Load(ST::Save& save)
 	{
 		items = save.items;
+	}
+
+	bool Inventory::Contains(std::string item)
+	{
+		if (std::find(items.begin(), items.end(), item) == items.end())
+		{
+			return false;
+		}
+		else
+		{
+			return true; 
+		}
 	}
 }

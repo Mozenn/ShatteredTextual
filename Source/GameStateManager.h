@@ -8,7 +8,7 @@
 #include <functional>
 #include "GameInstance.h"
 
-namespace SL
+namespace ST
 {
 	using StateRef = std::shared_ptr<GameState>;
 
@@ -51,35 +51,38 @@ namespace SL
 		template<class T>
 		void LoadNewState(std::string stateName, bool isReplacing)
 		{
-
-			if (isReplacing && !states.empty())
+			if (states.top()->GetName() != stateName)
 			{
-				StateRef oldState; 
-				oldState = states.top();
-				oldState->OnStateEnd.Clear();
-				states.pop();
-				
+				if (isReplacing && !states.empty())
+				{
+					StateRef oldState;
+					oldState = states.top();
+					oldState->OnStateEnd.Clear();
+					states.pop();
+
+				}
+
+
+				StateRef newState = std::make_shared<T>(stateName);
+
+				states.push(newState);
+
+				std::function<void(std::string)> function = std::bind(&GameStateManager::HandleCurrentStateEnd, this, std::placeholders::_1);
+				newState->OnStateEnd.Add(function);
+
+				auto newLevel = std::dynamic_pointer_cast<Level>(newState);
+				if (newLevel)
+				{
+					// bind onNewItem event 
+					std::function<void(std::string)> itemFunction = std::bind(&GameInstance::HandleOnNewItem, owingInstance, std::placeholders::_1);
+					newLevel->OnNewItem.Add(itemFunction);
+
+					// bind onNewprogevent event
+					std::function<void(std::string)> progFunction = std::bind(&GameInstance::HandleOnNewProgressionEvent, owingInstance, std::placeholders::_1);
+					newLevel->OnNewProgressionEvent.Add(progFunction);
+				}
 			}
 
-
-			StateRef newState = std::make_shared<T>(stateName);
-
-			states.push(newState);
-
-			std::function<void(std::string)> function = std::bind(&GameStateManager::HandleCurrentStateEnd, this, std::placeholders::_1);
-			newState->OnStateEnd.Add(function);
-
-			auto newLevel = std::dynamic_pointer_cast<Level>(newState);
-			if (newLevel)
-			{
-				// bind onNewItem event 
-				std::function<void(std::string)> itemFunction = std::bind(&GameInstance::HandleOnNewItem, owingInstance, std::placeholders::_1);
-				newLevel->OnNewItem.Add(itemFunction);
-
-				// bind onNewprogevent event
-				std::function<void(std::string)> progFunction = std::bind(&GameInstance::HandleOnNewProgressionEvent, owingInstance, std::placeholders::_1);
-				newLevel->OnNewProgressionEvent.Add(progFunction);
-			}
 		}
 
 		void HandleInput(int input);

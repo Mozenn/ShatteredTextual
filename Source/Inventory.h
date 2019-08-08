@@ -3,7 +3,7 @@
 #include <vector>
 #include "Save.h"
 
-namespace SL
+namespace ST
 {
 	class Save;
 
@@ -19,7 +19,9 @@ namespace SL
 
 		void Save(Save& save);
 
-		void Load(SL::Save& save);
+		void Load(ST::Save& save);
+
+		bool Contains(std::string item);
 
 	private:
 

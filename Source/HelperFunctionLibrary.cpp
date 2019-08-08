@@ -1,8 +1,8 @@
 #include "HelperFunctionLibrary.h"
 #include <iostream>
-#include "SLTypes.h"
+#include "STTypes.h"
 
-namespace SL
+namespace ST
 {
 
 	void HelperFunctionLibrary::SkipLine()
@@ -35,7 +35,7 @@ namespace SL
 	{
 		for (unsigned i(0); i < choices.size(); i++)
 		{
-			std::cout << i + 1 << " " << choices[i] << std::endl;
+			std::cout << i + 1 << ". " << choices[i] << std::endl;
 		}
 		SkipLine();
 	}
@@ -98,7 +98,7 @@ namespace SL
 
 			file.seekg(0, file.beg);
 
-			HelperFunctionLibrary::SLgetline(file, line);
+			HelperFunctionLibrary::STgetline(file, line);
 
 			while (line != "*" && !found)
 			{
@@ -108,7 +108,7 @@ namespace SL
 
 					return SearchResult(file.tellg(),found);
 				}
-				HelperFunctionLibrary::SLgetline(file, line);
+				HelperFunctionLibrary::STgetline(file, line);
 			}
 
 			return SearchResult(std::streampos(),found);
@@ -118,7 +118,7 @@ namespace SL
 		return SearchResult(std::streampos(), false);
 	}
 
-	std::istream& HelperFunctionLibrary::SLgetline(std::istream& is, std::string& str)
+	std::istream& HelperFunctionLibrary::STgetline(std::istream& is, std::string& str)
 	{
 		bool bIsValid = false; 
 		
@@ -128,6 +128,10 @@ namespace SL
 			if (str.substr(0, 2) != "//")
 			{
 				bIsValid = true;
+			}
+			else
+			{
+				str.clear();
 			}
 				
 		}

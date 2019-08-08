@@ -2,10 +2,10 @@
 
 #include <vector>
 #include <string>
-#include "SLTypes.h"
+#include "STTypes.h"
 #include <istream>
 
-namespace SL
+namespace ST
 {
 
 	class HelperFunctionLibrary
@@ -30,7 +30,7 @@ namespace SL
 		static SearchResult GetPositionInFile(std::istream& file, std::string search);
 
 		// simple getline but ignore commented line with "//" 
-		static std::istream& SLgetline(std::istream& is, std::string& str);
+		static std::istream& STgetline(std::istream& is, std::string& str);
 
 	};
 

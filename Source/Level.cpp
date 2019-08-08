@@ -1,11 +1,13 @@
 #include "Level.h"
-#include "SLTypes.h"
+#include "STTypes.h"
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include "HelperFunctionLibrary.h"
+#include "GameInstance.h"
+#include <ctime>
 
-namespace SL
+namespace ST
 {
 	Level::Level() : GameState("unknown") , description(""), choices(0)
 	{
@@ -31,7 +33,7 @@ namespace SL
 
 				do
 				{
-					HelperFunctionLibrary::SLgetline(levelFile, line);
+					HelperFunctionLibrary::STgetline(levelFile, line);
 
 					description += line;
 				} while (!line.empty());
@@ -47,10 +49,13 @@ namespace SL
 
 				do
 				{
-					HelperFunctionLibrary::SLgetline(levelFile, line);
+					HelperFunctionLibrary::STgetline(levelFile, line);
 
-					if(!line.empty())
-						choices.push_back(line) ;
+					if (!line.empty())
+					{
+						choices.push_back(line);
+					}
+						
 
 				} while (!line.empty());
 
@@ -64,9 +69,58 @@ namespace SL
 
 				do
 				{
-					HelperFunctionLibrary::SLgetline(levelFile, line);
+					HelperFunctionLibrary::STgetline(levelFile, line);
 
-					links.push_back(line);
+					size_t pos = line.find(":"); 
+
+					if (pos != std::string::npos)
+					{
+						std::string condition, link, conditionType;
+						std::string conditions = line.substr(pos+(size_t)1);
+						std::string tempLinks = line.substr(0, pos);
+
+						std::stringstream linksStream(tempLinks);
+						std::stringstream conditionsStream(conditions);
+						bool bDone = false; 
+						while (linksStream >> link && conditionsStream >> conditionType && conditionsStream >> condition && !bDone)
+						{
+							if (conditionType == "." || condition == "...")
+							{
+								links.push_back(link);
+								bDone = true; 
+							}
+							else if (conditionType == "I" && GameInstance::Get().CheckItem(condition))
+							{
+								links.push_back(link);
+								bDone = true;
+							}
+							else if (conditionType == "P" && GameInstance::Get().CheckProgEvent(condition))
+							{
+								links.push_back(link);
+								bDone = true;
+							}
+							else if (conditionType == "R" )
+							{
+								// TODO : random condition 
+								srand(time(0));
+
+								float rand(rand() % 100);
+								rand /= 100; 
+								if (rand <= std::stof(condition))
+								{
+									links.push_back(link);
+									bDone = true;
+								}
+
+							}
+						}
+
+
+					}
+					else
+					{
+						links.push_back(line);
+					}
 
 				} while (!line.empty());
 
@@ -79,7 +133,7 @@ namespace SL
 			{
 				levelFile.seekg(res.position);
 
-				HelperFunctionLibrary::SLgetline(levelFile, line);
+				HelperFunctionLibrary::STgetline(levelFile, line);
 
 				std::stringstream lineStream(line); 
 				std::string it; 
@@ -97,7 +151,7 @@ namespace SL
 			{
 				levelFile.seekg(res.position);
 
-				HelperFunctionLibrary::SLgetline(levelFile, line);
+				HelperFunctionLibrary::STgetline(levelFile, line);
 
 				std::stringstream lineStream(line);
 				std::string it;

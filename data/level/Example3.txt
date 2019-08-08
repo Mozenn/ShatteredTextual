@@ -12,9 +12,9 @@ Example
 Start
 
 [items]
-item1 item2
+item1 item3
 
 [progressions]
-progression1 progression2 progression3
+progression3
 
 *

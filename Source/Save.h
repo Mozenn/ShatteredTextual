@@ -3,7 +3,7 @@
 #include <vector>
 #include <map>
 
-namespace SL
+namespace ST
 {
 	// class containing every data needed to be saved 
 	class Save

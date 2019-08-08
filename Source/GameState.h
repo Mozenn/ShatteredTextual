@@ -2,7 +2,7 @@
 #include <string>
 #include "Event.h"
 
-namespace SL
+namespace ST
 {
 	class GameState
 	{
@@ -19,11 +19,15 @@ namespace SL
 
 		std::string GetName() const; 
 
+		bool IsEqual(GameState const& B) const;
+
 	protected :
 
 		std::string name; 
 
 	};
+
+	bool operator==(GameState const& A, GameState const& B);
 
 }
 

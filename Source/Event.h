@@ -2,7 +2,7 @@
 #include <functional>
 #include <vector>
 
-namespace SL
+namespace ST
 {
 
 	template<class F>
@@ -11,27 +11,13 @@ namespace SL
 
 	public:
 
+		// Add a new function to this event instance 
 		void Add(std::function<F> newFunction)
 		{
-			//if (!Contains(newFunction))
-			//{
-			//	functions.push_back(newFunction);
-			//}
-
 			functions.push_back(newFunction);
 		}
 
-		//bool Contains(std::function<F> function)
-		//{
-		//	for (auto func : functions)
-		//	{
-		//		if (func == function)
-		//			return true; 
-		//	}
-
-		//	return false; 
-		//}
-
+		// Clear all functions bound to this instance 
 		void Clear()
 		{
 			if (!functions.empty())
@@ -40,6 +26,8 @@ namespace SL
 			}
 		}
 
+		// call all functions bound to this instance 
+		// one paramater
 		template <class T>
 		void Broadcast(T arg)
 		{
@@ -49,6 +37,7 @@ namespace SL
 			}
 		}
 
+		// no parameter 
 		void Broadcast()
 		{
 			for (auto func : functions)
@@ -57,6 +46,7 @@ namespace SL
 			}
 		}
 
+		//two parameter 
 		template <class T, class S>
 		void Broadcast(T arg, S arg2)
 		{
@@ -68,7 +58,7 @@ namespace SL
 
 	private:
 
-		// vector of std::func 
+		// vector of bound functions 
 		std::vector<std::function<F>> functions;
 	};
 
