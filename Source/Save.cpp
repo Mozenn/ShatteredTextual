@@ -21,7 +21,7 @@ namespace ST
 
 	void Save::SaveSlot()
 	{
-		std::string saveFileName = "data/save/" + saveName + ".txt";
+		std::string saveFileName = "data/save/" + saveName + ".sav";
 		std::ofstream saveFile(saveFileName.c_str());
 
 		if (saveFile)
@@ -48,7 +48,7 @@ namespace ST
 		std::string line;
 		SearchResult res;
 
-		std::string tempSaveName = "data/save/" + saveName + ".txt";
+		std::string tempSaveName = "data/save/" + saveName + ".sav";
 		std::ifstream saveFile(tempSaveName.c_str());
 
 		if(saveFile)

@@ -76,6 +76,8 @@ namespace ST
 		// loop through progression file to fill progression vector 
 		void InitializeProgression();
 
+		virtual bool ShouldExitGame(); // override or modify this function to implement custom exit of game loop 
+
 		void LocalSave();
 
 		void HandleInput();

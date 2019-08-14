@@ -49,7 +49,7 @@ namespace ST
 
 	void GameInstance::GameLoop()
 	{
-		while (!bExitGame)
+		while (!bExitGame && !ShouldExitGame())
 		{
 			HelperFunctionLibrary::SkipLine();
 
@@ -168,6 +168,13 @@ namespace ST
 		{
 			return false; 
 		}
+
+		return false; 
+	}
+
+	bool GameInstance::ShouldExitGame()
+	{
+		// can check current level or inventory here to exit game at specific time 
 
 		return false; 
 	}
