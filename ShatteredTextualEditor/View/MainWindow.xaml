@@ -24,28 +24,19 @@
 		<Grid>
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="1*" />
-				<ColumnDefinition Width="1*" />
+				<ColumnDefinition Width="5" />
 				<ColumnDefinition Width="2*" />
+				<ColumnDefinition Width="5" />
 				<ColumnDefinition Width="2*" />
 			</Grid.ColumnDefinitions>
 			<Grid.RowDefinitions>
 				<RowDefinition Height="1*" />
 				<RowDefinition Height="1*" />
 			</Grid.RowDefinitions>
-			<GroupBox DockPanel.Dock="Left" Margin="10" Grid.Column="4">
-				<GroupBox.Header>
-					<TextBlock Text="Link" FontWeight="Bold"/>
-				</GroupBox.Header>
-				<StackPanel>
-					<StackPanel Orientation="Horizontal">
-						<Label Content="Next Level :"/>
-						<TextBox />
-					</StackPanel>
-					<ComboBox>
-						<!--TODO : Databinding ?-->
-					</ComboBox>
-				</StackPanel>
-			</GroupBox>
+			<TreeView Grid.RowSpan="2">
+				
+			</TreeView>
+			<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" />
 			<GroupBox DockPanel.Dock="Left" Margin="10" Grid.Column="2">
 				<GroupBox.Header>
 					<TextBlock Text="Level" FontWeight="Bold"/>
@@ -66,17 +57,38 @@
 					<TextBox />
 				</StackPanel>
 			</GroupBox>
-			<Expander x:Name="GameSettings" DockPanel.Dock="Right" ExpandDirection="Left" VerticalAlignment="Center" Grid.Column="4" Grid.RowSpan="2">
+			<GridSplitter Grid.Column="3" Width="5" HorizontalAlignment="Stretch" />
+			<GroupBox DockPanel.Dock="Left" Margin="10" Grid.Column="4">
+				<GroupBox.Header>
+					<TextBlock Text="Link" FontWeight="Bold"/>
+				</GroupBox.Header>
+				<StackPanel>
+					<StackPanel Orientation="Horizontal">
+						<Label Content="Next Level :"/>
+						<TextBox MinWidth="100"/>
+					</StackPanel>
+					<ComboBox>
+						<!--TODO : Databinding ?-->
+					</ComboBox>
+				</StackPanel>
+			</GroupBox>
+			<Expander x:Name="GameSettings" DockPanel.Dock="Right" ExpandDirection="Left" VerticalAlignment="Center" Grid.Column="4" Grid.RowSpan="2" HorizontalAlignment="Right"
+					  DataContext="{StaticResource gsVm}">
+				<Expander.Resources>
+					<vm:GameSettingsVM x:Key="gsVm"/>
+				</Expander.Resources>
 				<Expander.Header>
 					<TextBlock Text="GameSettings" Visibility="{Binding ElementName=GameSettings, Path=IsExpanded, Converter={StaticResource BoolToVis}}"/>
 				</Expander.Header>
 				<StackPanel Background="{StaticResource TransparentWhite}">
 					<StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-						<Label Content="Game Title:"/>
-						<TextBox/>
+						<Label Content="Game Title:" Margin="5"/>
+						<TextBox MinWidth="100" Margin="5"/>
 					</StackPanel>
 					<ScrollViewer>
-
+						<ListBox ItemsSource="{Binding ProgressionEvents}" SelectedItem="">
+							
+						</ListBox>
 					</ScrollViewer>
 				</StackPanel>
 			</Expander>

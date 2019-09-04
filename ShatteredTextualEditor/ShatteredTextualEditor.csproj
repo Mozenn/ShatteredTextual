@@ -55,10 +55,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ViewModel\ChoiceViewModel.cs" />
     <Compile Include="ViewModel\Converters\BooleanConverter.cs" />
     <Compile Include="ViewModel\Converters\BooleanToVisibilityConverter.cs" />
-    <Compile Include="ViewModel\GameViewModel.cs" />
+    <Compile Include="ViewModel\GameSettingsVM.cs" />
     <Compile Include="ViewModel\LevelViewModel.cs" />
     <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
