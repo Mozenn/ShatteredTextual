@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ShatteredTextualEditor.ViewModel
 {
-    class LevelViewModel
+    class ApplicationSettingsVM
     {
     }
 }
