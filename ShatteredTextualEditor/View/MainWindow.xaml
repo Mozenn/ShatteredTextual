@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ShatteredTextualEditor"
+		xmlns:m="clr-namespace:ShatteredTextualEditor.Model"
 		xmlns:vm="clr-namespace:ShatteredTextualEditor.ViewModel"
 		xmlns:cv="clr-namespace:ShatteredTextualEditor.ViewModel.Converters"
         mc:Ignorable="d"
@@ -12,11 +13,14 @@
 	<Window.Resources>
 		<cv:BooleanToVisibilityConverter x:Key="BoolToVis" True="Collapsed" False="Visible"/>
 	</Window.Resources>
+	<Window.DataContext>
+		<vm:MainVM/>
+	</Window.DataContext>
 
 	<DockPanel>
 		<Menu DockPanel.Dock="Top">
 			<MenuItem Header="File">
-				<MenuItem Header="New"/>
+				<MenuItem Header="New" />
 				<MenuItem Header="Open"/>
 				<MenuItem Header="Save"/>
 				<MenuItem Header="Save as"/>
@@ -37,57 +41,89 @@
 				<RowDefinition Height="1*" />
 				<RowDefinition Height="1*" />
 			</Grid.RowDefinitions>
-			<TreeView Grid.RowSpan="2">
-				
+			<TreeView Grid.RowSpan="2" ItemsSource="{Binding Levels}" <!-- TODO : SelectedItemChanged=""-->>
+				<TreeView.ItemTemplate>
+					<HierarchicalDataTemplate ItemsSource="{Binding Choices}" DataType="{x:Type m:Level}">
+						<Label Content="{Binding Name}"/>
+						<HierarchicalDataTemplate.ItemTemplate>
+							<HierarchicalDataTemplate DataType="{x:Type m:Choice}" >
+								<Label Content="0"/>
+							</HierarchicalDataTemplate>
+						</HierarchicalDataTemplate.ItemTemplate>
+					</HierarchicalDataTemplate>
+				</TreeView.ItemTemplate>
 			</TreeView>
 			<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" />
-			<ScrollViewer Margin="10" Grid.Column="2">
-				<GroupBox >
+			<ScrollViewer Margin="10" Grid.Column="2" Grid.RowSpan="2">
+				<GroupBox DataContext="{Binding SelectedLevel}">
 					<GroupBox.Header>
-						<TextBlock Text="Level" FontWeight="Bold"/>
+						<TextBlock Text="Level" FontWeight="Bold" FontSize="18"/>
 					</GroupBox.Header>
 					<StackPanel>
 						<StackPanel Orientation="Horizontal">
 							<Label Content="Name :"/>
-							<TextBox MinWidth="100"/>
+							<TextBox MinWidth="100" Text="{Binding Path=Name}" VerticalAlignment="Center"/>
+						</StackPanel>
+						<Label Content="Unlocked Items :" Margin="0,5"/>
+						<StackPanel Orientation="Horizontal" MinHeight="50">
+							<ListBox MinWidth="150" ItemsSource="{Binding UnlockedItems}" SelectedItem="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.SelectedItem}">
+								
+							</ListBox>
+							<StackPanel Orientation="Vertical" HorizontalAlignment="Right" Margin="10,0">
+								<Button Content="Add"/>
+								<Button Content="Remove"/>
+								<Button Content="Rename"/>
+							</StackPanel>
+						</StackPanel>
+						<Label Content="Unlocked Progression Events :" Margin="0,5"/>
+						<StackPanel Orientation="Horizontal" MinHeight="50">
+							<ListBox MinWidth="150" ItemsSource="{Binding UnlockedProgressionEvents}" SelectedItem="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.SelectedEvent}">
+
+							</ListBox>
+							<StackPanel Orientation="Vertical" HorizontalAlignment="Right" Margin="10,0">
+								<Button Content="Add"/>
+								<Button Content="Remove"/>
+								<Button Content="Rename"/>
+							</StackPanel>
 						</StackPanel>
 						<Label Content="Text :" Margin="0,10,0,0"/>
-						<RichTextBox MinHeight="150"/>
-					</StackPanel>
-				</GroupBox>
-			</ScrollViewer>
-			<ScrollViewer Margin="10" Grid.Column="2" Grid.Row="1">
-				<GroupBox >
-					<GroupBox.Header>
-						<TextBlock Text="Choice" FontWeight="Bold"/>
-					</GroupBox.Header>
-					<StackPanel>
-						<Label Content="Text :"/>
-						<RichTextBox MinHeight="150"/>
+						<TextBox MinHeight="150" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding Description}"/>
 					</StackPanel>
 				</GroupBox>
 			</ScrollViewer>
 			<GridSplitter Grid.Column="3" Width="5" HorizontalAlignment="Stretch" />
-			<ScrollViewer Margin="10" Grid.Column="4">
-				<GroupBox>
+			<ScrollViewer Margin="10" Grid.Column="4" Grid.RowSpan="2">
+				<GroupBox DataContext="{Binding SelectedChoice}">
 					<GroupBox.Header>
-						<TextBlock Text="Link" FontWeight="Bold"/>
+						<TextBlock Text="Choice" FontWeight="Bold" FontSize="18"/>
 					</GroupBox.Header>
 					<StackPanel>
-						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-							<Label Content="Next Level :"/>
-							<TextBox MinWidth="100"/>
-						</StackPanel>
-						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-							<Label Content="Condition Type :"/>
-							<ComboBox HorizontalAlignment="Center" MinWidth="100" Margin="10">
-								<!--TODO : Databinding ?-->
-							</ComboBox>
-						</StackPanel>
-						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-							<Label Content="Condition :"/>
-							<TextBox MinWidth="100"/>
-						</StackPanel>
+						<Label Content="Text :"/>
+						<TextBox MinHeight="150" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding Text}"/>
+						<GroupBox>
+							<GroupBox.Header>
+								<TextBlock Text="Links" FontWeight="DemiBold" FontSize="14"/>
+							</GroupBox.Header>
+							<DataGrid Margin="0,10" ItemsSource="{Binding Links}" AutoGenerateColumns="False" HorizontalAlignment="Center" MinHeight="200" MinRowHeight="50">
+								<DataGrid.Columns>
+									<DataGridTemplateColumn Header="Next Level">
+										<DataGridTemplateColumn.CellTemplate>
+											<DataTemplate>
+												<TextBox Text="{Binding NextLevel}"/>
+											</DataTemplate>
+										</DataGridTemplateColumn.CellTemplate>
+									</DataGridTemplateColumn>
+									<DataGridComboBoxColumn Header="Condition Type" ItemsSource="{Binding Source={x:Static vm:MainVM.Conditions}}" />
+									<DataGridTemplateColumn Header="Condition">
+										<DataGridTemplateColumn.CellTemplate>
+											<DataTemplate>
+												<TextBox Text="{Binding Condition}"/>
+											</DataTemplate>
+										</DataGridTemplateColumn.CellTemplate>
+									</DataGridTemplateColumn>
+								</DataGrid.Columns>
+							</DataGrid>
+						</GroupBox>
 					</StackPanel>
 				</GroupBox>
 			</ScrollViewer>
@@ -105,14 +141,18 @@
 				<StackPanel Margin="10" HorizontalAlignment="Left">
 					<StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
 						<Label Content="Game Title:" Margin="5"/>
-						<TextBox MinWidth="100" Margin="5"/>
+						<TextBox MinWidth="100" Margin="5" VerticalAlignment="Center"/>
 					</StackPanel>
-					<Label Content="Progression Events :" Margin="0,15,0,0"/>
+					<Label Content="Progression Events :" Margin="0,10,0,0"/>
 					<ScrollViewer>
 						<ListBox ItemsSource="{Binding ProgressionEvents}" SelectedItem="">
 							
 						</ListBox>
 					</ScrollViewer>
+					<StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,15">
+						<Label Content="Start Level:" Margin="5"/>
+						<TextBox MinWidth="100" Margin="5" VerticalAlignment="Center"/>
+					</StackPanel>
 				</StackPanel>
 			</Expander>
 		</Grid>

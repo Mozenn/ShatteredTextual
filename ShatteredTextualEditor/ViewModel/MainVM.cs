@@ -10,24 +10,74 @@ namespace ShatteredTextualEditor.ViewModel
 {
     public class MainVM : NotificationObject
     {
+        // TODO : divide MainVM into LevelsVM & GameSettingsVM
         
         public MainVM()
         {
+            Levels = new ObservableCollection<Level>();
 
-        }
-
-        private string title;
-
-        public string Title
-        {
-            get { return title; }
-            set
+            var L1 = new Level()
             {
-                title = value;
-                OnPropertyChanged("Title");
-            }
-        }
+                Name = "Hey",
+                Description = "This is a description",
+                Choices = new ObservableCollection<Choice>(),
+                UnlockedItems = new ObservableCollection<string>(),
+                UnlockedProgressionEvents = new ObservableCollection<string>()
+            };
 
+            var L2 = new Level()
+            {
+                Name = "Ho",
+                Description = "This is not a description",
+                Choices = new ObservableCollection<Choice>(),
+                UnlockedItems = new ObservableCollection<string>(),
+                UnlockedProgressionEvents = new ObservableCollection<string>()
+            };
+
+            var C1 = new Choice()
+            {
+                Text = "Choice1",
+                Links = new ObservableCollection<Link>()
+            };
+
+            var C2 = new Choice()
+            {
+                Text = "Choice2",
+                Links = new ObservableCollection<Link>()
+            };
+
+            var Lk1 = new Link()
+            {
+                NextLevel = "?",
+                ConditionType = Condition.Item,
+                Condition = "Axe"
+            };
+
+            var Lk2 = new Link()
+            {
+                NextLevel = "?",
+                ConditionType = Condition.Event,
+                Condition = "Part1"
+            };
+
+            C1.Links.Add(Lk1);
+            C1.Links.Add(Lk2);
+
+            C2.Links.Add(Lk1);
+
+            L1.Choices.Add(C1);
+            L1.Choices.Add(C2);
+            L1.UnlockedItems.Add("Axe");
+            L1.UnlockedProgressionEvents.Add("End");
+
+            L2.Choices.Add(C1);
+            L2.UnlockedItems.Add("hapiness");
+            L2.UnlockedProgressionEvents.Add("death");
+
+            Levels.Add(L1);
+            Levels.Add(L2);
+
+        }
 
         public ObservableCollection<Level> Levels { get; set; }
 
@@ -55,8 +105,57 @@ namespace ShatteredTextualEditor.ViewModel
             }
         }
 
+        private string selectedItem;
+
+        public string SelectedItem
+        {
+            get { return selectedItem; }
+            set { selectedItem = value; }
+        }
+
+        private string selectedEvent;
+
+        public string SelectedEvent
+        {
+            get { return selectedEvent; }
+            set { selectedEvent = value; }
+        }
+
+        // List of all values of Condition enum to bind to ComboBox of Links  
+        public static IList<Condition> Conditions
+        {
+            get
+            {
+                return Enum.GetValues(typeof(Condition)).Cast<Condition>().ToList<Condition>();
+            }
+        }
+
+
+
+        public void UpdateLevels()
+        {
+
+        }
+
+        // GAME SETTINGS 
+
+        private string title;
+
+        public string Title
+        {
+            get { return title; }
+            set
+            {
+                title = value;
+                OnPropertyChanged("Title");
+            }
+        }
 
         public ObservableCollection<string> ProgressionEvents { get; set; }
+
+        #region Commands
+
+        #endregion // Commands 
 
     }
 }

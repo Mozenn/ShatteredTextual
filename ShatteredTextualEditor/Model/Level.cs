@@ -35,6 +35,10 @@ namespace ShatteredTextualEditor.Model
 
         public ObservableCollection<Choice> Choices { get; set; }
 
+        public ObservableCollection<string> UnlockedItems { get; set; }
+
+        public ObservableCollection<string> UnlockedProgressionEvents { get; set; }
+
     }
 
 }

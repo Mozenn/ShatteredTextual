@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,17 +22,7 @@ namespace ShatteredTextualEditor.Model
             }
         }
 
-        private string link;
-
-        public string Link
-        {
-            get { return link; }
-            set
-            {
-                link = value;
-                OnPropertyChanged("Link");
-            }
-        }
+        public ObservableCollection<Link> Links; 
 
 
     }

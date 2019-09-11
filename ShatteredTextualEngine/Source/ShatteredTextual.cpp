@@ -59,7 +59,7 @@ int main()
 
 	if (menuInput == 1 && !bIsSaveFolderEmpty)
 	{
-		std::cout << "Welcome back adventurer !" << std::endl;
+		std::cout << "Welcome back !" << std::endl;
 		std::cout << "Choose a save slot" << std::endl;
 
 		// Get save STot
@@ -93,7 +93,7 @@ int main()
 	else if (menuInput == 2 && !bIsSaveFolderEmpty || menuInput == 1 && bIsSaveFolderEmpty)
 	{
 
-		std::cout << "Welcome adventurer ! What is your name ?" << std::endl;
+		std::cout << "Welcome ! What is your name ?" << std::endl;
 		std::string name;
 		std::cin >> name;
 		std::cin.ignore();

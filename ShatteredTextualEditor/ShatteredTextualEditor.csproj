@@ -56,9 +56,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Model\Choice.cs" />
+    <Compile Include="Model\Link.cs" />
     <Compile Include="NotificationObject.cs" />
     <Compile Include="ViewModel\ApplicationSettingsVM.cs" />
-    <Compile Include="ViewModel\ApplicationVM.cs" />
     <Compile Include="ViewModel\Converters\BooleanConverter.cs" />
     <Compile Include="ViewModel\Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="ViewModel\GameSettingsVM.cs" />
