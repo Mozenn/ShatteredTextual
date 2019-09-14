@@ -77,6 +77,10 @@ namespace ShatteredTextualEditor.ViewModel
             Levels.Add(L1);
             Levels.Add(L2);
 
+            ProgressionEvents = new ObservableCollection<string>();
+            ProgressionEvents.Add("Hey");
+            ProgressionEvents.Add("Ho");
+
         }
 
         public ObservableCollection<Level> Levels { get; set; }
@@ -113,12 +117,12 @@ namespace ShatteredTextualEditor.ViewModel
             set { selectedItem = value; }
         }
 
-        private string selectedEvent;
+        private string selectedUnlockedEvent;
 
-        public string SelectedEvent
+        public string SelectedUnlockedEvent
         {
-            get { return selectedEvent; }
-            set { selectedEvent = value; }
+            get { return selectedUnlockedEvent; }
+            set { selectedUnlockedEvent = value; }
         }
 
         // List of all values of Condition enum to bind to ComboBox of Links  
@@ -151,7 +155,25 @@ namespace ShatteredTextualEditor.ViewModel
             }
         }
 
+        private string startLevel;
+
+        public string StartLevel
+        {
+            get { return startLevel; }
+            set { startLevel = value; }
+        }
+
+
         public ObservableCollection<string> ProgressionEvents { get; set; }
+
+        private string selectedEvent;
+
+        public string SelectedEvent
+        {
+            get { return selectedEvent; }
+            set { selectedEvent = value; }
+        }
+
 
         #region Commands
 
