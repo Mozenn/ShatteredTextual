@@ -1,4 +1,5 @@
 ﻿using ShatteredTextualEditor.Model;
+using ShatteredTextualEditor.ViewModel.Commands;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,7 +12,7 @@ namespace ShatteredTextualEditor.ViewModel
     public class MainVM : NotificationObject
     {
         // TODO : divide MainVM into LevelsVM & GameSettingsVM
-        
+
         public MainVM()
         {
             Levels = new ObservableCollection<Level>();
@@ -80,6 +81,10 @@ namespace ShatteredTextualEditor.ViewModel
             ProgressionEvents = new ObservableCollection<string>();
             ProgressionEvents.Add("Hey");
             ProgressionEvents.Add("Ho");
+
+            // Commands 
+
+            SelectionChangedCommand = new OnSelectionChangedCommand(this);
 
         }
 
@@ -176,6 +181,8 @@ namespace ShatteredTextualEditor.ViewModel
 
 
         #region Commands
+
+        public OnSelectionChangedCommand SelectionChangedCommand {get; set;} 
 
         #endregion // Commands 
 
