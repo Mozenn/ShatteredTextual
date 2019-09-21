@@ -34,3 +34,4 @@ There are several level files, an icon file and a progressionEventList file in t
 
 Version 2.0 will have an Editor allowing data file creation and start level.
 The Icon will maybe be set automatically.
+The singleton pattern for the GameInstance is only temporary. It will be replaced by a better design pattern.
