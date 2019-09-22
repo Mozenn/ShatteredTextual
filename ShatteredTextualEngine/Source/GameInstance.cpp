@@ -10,6 +10,7 @@
 #include "GameStateManager.h"
 #include "InventoryMenu.h"
 #include <algorithm>
+#include "WrongLevelName.h"
 
 namespace ST
 {
@@ -49,22 +50,31 @@ namespace ST
 
 	void GameInstance::GameLoop()
 	{
-		while (!bExitGame && !ShouldExitGame())
+		try
 		{
-			HelperFunctionLibrary::SkipLine();
+			while (!bExitGame && !ShouldExitGame())
+			{
+				HelperFunctionLibrary::SkipLine();
 
-			HelperFunctionLibrary::DisplayLine();
+				HelperFunctionLibrary::DisplayLine();
 
-			HelperFunctionLibrary::SkipLine();
+				HelperFunctionLibrary::SkipLine();
 
-			// Display HUD (Save, see inventory, quit game)  
-			DisplayHUD();
+				// Display HUD (Save, see inventory, quit game)  
+				DisplayHUD();
 
-			// Display Level (description & choices) 
-			levelManager->DisplayCurrentState();
-			// Handle Input for input 
-			HandleInput();
+				// Display Level (description & choices) 
+				levelManager->DisplayCurrentState();
+				// Handle Input for input 
+				HandleInput();
+			}
 		}
+		catch (WrongLevelName)
+		{
+			QuitGame();
+			return; 
+		}
+
 	}
 
 	void GameInstance::HandleInput()

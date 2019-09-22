@@ -8,8 +8,6 @@ namespace ST
 	{
 	public:
 
-		InventoryMenu();
-
 		InventoryMenu(std::string p_name);
 
 		virtual void Display() override;

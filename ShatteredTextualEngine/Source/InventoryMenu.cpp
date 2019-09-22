@@ -6,10 +6,6 @@
 namespace ST
 {
 
-	InventoryMenu::InventoryMenu() : GameState()
-	{
-
-	}
 
 	InventoryMenu::InventoryMenu(std::string p_name) : GameState(p_name)
 	{

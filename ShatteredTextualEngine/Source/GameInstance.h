@@ -17,12 +17,16 @@ namespace ST
 
 	public:
 
+		// TODO : replace singleton by better design ( DI or Service locator ) 
+
 		// static get, part of singleton pattern 
 		static GameInstance& Get()
 		{
 			static GameInstance* instance = new GameInstance();
 			return *instance;
 		}
+
+		// rule of five  
 
 		// initialize name & save 
 		void Initialize(std::string name);

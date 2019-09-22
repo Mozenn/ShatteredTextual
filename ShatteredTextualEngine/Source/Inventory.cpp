@@ -7,10 +7,6 @@
 namespace ST
 {
 
-	Inventory::Inventory()
-	{
-	}
-
 	void Inventory::DisplayInventory()
 	{
 		HelperFunctionLibrary::SkipLine();

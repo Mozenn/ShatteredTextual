@@ -7,9 +7,10 @@ namespace ST
 	class GameState
 	{
 	public:
-		GameState();
 
 		GameState(std::string p_name);
+
+		~GameState()=default ;
 
 		Event<void(std::string)> OnStateEnd; 
 
@@ -17,7 +18,7 @@ namespace ST
 
 		virtual void HandleInput(int input) = 0;
 
-		std::string GetName() const; 
+		std::string GetName() const ; 
 
 		bool IsEqual(GameState const& B) const;
 

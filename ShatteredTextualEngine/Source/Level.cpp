@@ -6,6 +6,7 @@
 #include "HelperFunctionLibrary.h"
 #include "GameInstance.h"
 #include <ctime>
+#include "WrongLevelName.h"
 
 namespace ST
 {
@@ -101,7 +102,6 @@ namespace ST
 							}
 							else if (conditionType == "R" )
 							{
-								// TODO : random condition 
 								srand(time(0));
 
 								float rand(rand() % 100);
@@ -163,6 +163,10 @@ namespace ST
 			}
 
 			levelFile.close();
+		}
+		else
+		{
+			throw WrongLevelName();
 		}
 
 	}

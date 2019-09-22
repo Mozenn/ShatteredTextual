@@ -10,8 +10,6 @@ namespace ST
 	{
 	public:
 
-		Save();
-
 		Save(std::string name);
 
 		std::string currentLevel;
@@ -26,7 +24,7 @@ namespace ST
 
 	private:
 
-		std::string saveName;
+		std::string saveName= "none" ;
 	};
 
 }

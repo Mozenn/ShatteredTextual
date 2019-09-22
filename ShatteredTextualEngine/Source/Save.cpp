@@ -9,11 +9,6 @@
 namespace ST
 { 
 
-	Save::Save() : saveName("none")
-	{
-
-	}
-
 	Save::Save(std::string name) : saveName(name)
 	{
 

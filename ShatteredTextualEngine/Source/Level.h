@@ -4,7 +4,6 @@
 #include <vector>
 #include "GameState.h"
 #include "Event.h"
-#
 
 namespace ST
 {
@@ -13,6 +12,11 @@ namespace ST
 	public:
 
 		Level();
+		~Level() = default;
+		Level(const Level&) = default;
+		Level& operator=(const Level&) = default;
+		Level(Level&&) = default;
+		Level& operator=(Level&&) = default;
 
 		Level(std::string levelName);
 

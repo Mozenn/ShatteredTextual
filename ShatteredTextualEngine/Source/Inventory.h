@@ -11,8 +11,6 @@ namespace ST
 	{
 	public:
 
-		Inventory(); 
-
 		void DisplayInventory();
 
 		void AddToInventory(std::string newItem);

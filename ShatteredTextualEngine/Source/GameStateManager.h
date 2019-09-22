@@ -87,8 +87,6 @@ namespace ST
 
 		void HandleInput(int input);
 
-		void Test(std::string nextState){}
-
 		void HandleCurrentStateEnd(std::string nextState = "");
 
 		std::string GetCurrentStateName(); 
