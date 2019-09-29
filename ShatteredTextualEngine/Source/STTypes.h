@@ -1,6 +1,8 @@
 #pragma once
 #include <istream>
 
+/* Header containing global custom types used globaly in the engine */
+
 namespace ST
 {
 	struct SearchResult

@@ -18,8 +18,12 @@ namespace ST
 	{
 	public:
 
+		/* Assign owning instance member ptr */
 		GameStateManager(GameInstance* p_owingInstance);
 
+		/*
+		Initialize first state 
+		*/
 		template<class T>
 		void Initialize(std::string startState = "Start") // Here to modify default start level on new game 
 		{
@@ -48,11 +52,17 @@ namespace ST
 
 		void DisplayCurrentState();
 
+		/*
+		Add new state into the stack 
+		Optionaly remove current top state of the stack 
+		*/
 		template<class T>
 		void LoadNewState(std::string stateName, bool isReplacing)
 		{
 			if (states.top()->GetName() != stateName)
 			{
+
+				// Remove current state of stack 
 				if (isReplacing && !states.empty())
 				{
 					StateRef oldState;
@@ -62,6 +72,7 @@ namespace ST
 
 				}
 
+				// Add new state in stack 
 
 				StateRef newState = std::make_shared<T>(stateName);
 
@@ -87,12 +98,17 @@ namespace ST
 
 		void HandleInput(int input);
 
+		/* handler called on state removed */
 		void HandleCurrentStateEnd(std::string nextState = "");
 
 		std::string GetCurrentStateName(); 
 
 	protected:
 
+		/*
+		Stack of State 
+		FIFO 
+		*/
 		std::stack<StateRef> states;
 
 		GameInstance* owingInstance; 

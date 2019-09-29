@@ -11,13 +11,13 @@ namespace ST
 
 	public:
 
-		// Add a new function to this event instance 
+		/* Add a new function to this event instance */
 		void Add(std::function<F> newFunction)
 		{
 			functions.push_back(newFunction);
 		}
 
-		// Clear all functions bound to this instance 
+		/* Clear all functions bound to this instance */
 		void Clear()
 		{
 			if (!functions.empty())
@@ -26,8 +26,8 @@ namespace ST
 			}
 		}
 
-		// call all functions bound to this instance 
-		// one paramater
+		/* call all functions bound to this instance 
+		 one parameter */
 		template <class T>
 		void Broadcast(T arg)
 		{
@@ -37,7 +37,8 @@ namespace ST
 			}
 		}
 
-		// no parameter 
+		/* call all functions bound to this instance
+		no parameter */
 		void Broadcast()
 		{
 			for (auto func : functions)
@@ -46,7 +47,8 @@ namespace ST
 			}
 		}
 
-		//two parameter 
+		/* call all functions bound to this instance
+		two parameter */
 		template <class T, class S>
 		void Broadcast(T arg, S arg2)
 		{
@@ -58,7 +60,7 @@ namespace ST
 
 	private:
 
-		// vector of bound functions 
+		/* vector of bound functions */
 		std::vector<std::function<F>> functions;
 	};
 

@@ -19,50 +19,54 @@ namespace ST
 
 		// TODO : replace singleton by better design ( DI or Service locator ) 
 
-		// static get, part of singleton pattern 
+		/* static get, part of singleton pattern */
 		static GameInstance& Get()
 		{
 			static GameInstance* instance = new GameInstance();
 			return *instance;
-		}
+		} 
 
-		// rule of five  
-
-		// initialize name & save 
+		/* initialize name & save */ 
 		void Initialize(std::string name);
 
-		// Main gameloop 
+		/* Main gameloop */
 		void GameLoop();
 
-		// Initialize levelManager & load data from save slot 
+		/* Initialize levelManager & load data from save slot */
 		bool LoadGame(bool bNewGame);
 
-		// Save all data to save object member then save to slot file 
+		/* Save all data to save object member then save to slot file */
 		void SaveGame();
 
-		// exit GameLoop
+		/* exit GameLoop */ 
 		void QuitGame();
 
+		/* Call during each loop of GameLoop */
 		void DisplayHUD();
 
 		void DisplayInventory();
 
-		// Check if item is in inventory 
+		/* return if item is in inventory */
 		bool CheckItem(std::string item) const ; 
 
-		// Check if progression event has been encountered 
+		/* Check if progression event has been encountered */
 		bool CheckProgEvent(std::string progEvent) const;
 
-		// called when new item found in new loaded level
-		// bound to OnNewItem event of current level in LevelManager 
+		/* 
+		called when new item found in new loaded level
+		 bound to OnNewItem event of current level in LevelManager 
+		 */
 		void HandleOnNewItem(std::string newItem); 
 
-		// called when new progression event found in new loaded level
-		// bound to OnNewProgressionEvent event of current level in LevelManager 
+		/* 
+		called when new progression event found in new loaded level
+		bound to OnNewProgressionEvent event of current level in LevelManager 
+		*/
 		void HandleOnNewProgressionEvent(std::string newProg);
 
 	private:
 
+		/* private constructor , part of singleton pattern */
 		GameInstance();
 
 		std::map<std::string,int> progression;
@@ -77,13 +81,18 @@ namespace ST
 
 		std::shared_ptr<Save> save;
 
-		// loop through progression file to fill progression vector 
+		/* loop through progression file to fill progression vector */ 
 		void InitializeProgression();
 
 		virtual bool ShouldExitGame(); // override or modify this function to implement custom exit of game loop 
 
+		/* 
+		Save local data of GameInstance 
+		Called during SaveGame() 
+		*/
 		void LocalSave();
 
+		/* Called every loop */
 		void HandleInput();
 	};
 }

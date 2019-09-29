@@ -45,7 +45,7 @@
     <ClInclude Include="Source\STTypes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WrongLevelName.h">
+    <ClInclude Include="Source\WrongLevelName.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

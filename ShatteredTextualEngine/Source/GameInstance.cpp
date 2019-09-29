@@ -22,6 +22,7 @@ namespace ST
 
 	void GameInstance::InitializeProgression()
 	{
+		// Open file 
 		std::string fileName = "data/progressionEventList.txt";
 		std::ifstream File(fileName.c_str());
 

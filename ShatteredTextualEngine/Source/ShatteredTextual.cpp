@@ -10,12 +10,11 @@
 #include "HelperFunctionLibrary.h"
 #include "GameInstance.h"
 
-namespace fs = std::experimental::filesystem;
+namespace fs = std::filesystem;
 
 // return if save already existing 
 bool DisplayMenu()
 {
-
 	std::string line;
 	std::ifstream Icon("Data/Icon.txt");
 	while (ST::HelperFunctionLibrary::STgetline(Icon, line))

@@ -164,7 +164,7 @@
     <ClInclude Include="Source\Level.h" />
     <ClInclude Include="Source\Save.h" />
     <ClInclude Include="Source\STTypes.h" />
-    <ClInclude Include="WrongLevelName.h" />
+    <ClInclude Include="Source\WrongLevelName.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Event.cpp" />

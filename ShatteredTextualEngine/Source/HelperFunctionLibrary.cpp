@@ -64,7 +64,7 @@ namespace ST
 		return input;
 	}
 
-	int HelperFunctionLibrary::GetUserInput(std::vector<std::pair<int, int>>& validRanges)
+	int HelperFunctionLibrary::GetUserInput(const std::vector<std::pair<int, int>>& validRanges)
 	{
 		bool bInputOK = false;
 		int input;
